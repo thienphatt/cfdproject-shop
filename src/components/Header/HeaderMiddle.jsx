@@ -1,9 +1,8 @@
 import React, { useEffect } from "react";
 import { Link, NavLink } from "react-router-dom";
 import { PATHS } from "../../constants/paths";
-import { MenuStyle } from "../styled-components";
 import { useMainContext } from "../../context/MainContext";
-import tokenMethod from "../../utils/token";
+import { MenuStyle } from "../styled-components";
 
 const HeaderMiddle = () => {
   const { isShowNavbar, handleShowNavbar } = useMainContext();
@@ -44,10 +43,10 @@ const HeaderMiddle = () => {
               <NavLink to={PATHS.ABOUT}>About Us</NavLink>
             </li>
             <li>
-              <NavLink to={PATHS.PRODUCT_PATH.INDEX}>Product</NavLink>
+              <NavLink to={PATHS.PRODUCT}>Product</NavLink>
             </li>
             <li>
-              <NavLink to={PATHS.BLOG.INDEX}>Blog</NavLink>
+              <NavLink to={PATHS.BLOG}>Blog</NavLink>
             </li>
             <li>
               <NavLink to={PATHS.CONTACT}>Contact Us</NavLink>

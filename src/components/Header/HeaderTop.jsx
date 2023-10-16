@@ -8,7 +8,6 @@ import { MODAL_TYPE } from "../../constants/general";
 const HeaderTop = () => {
   const { handleShowModal, handleLogout, profile } = useAuthContext();
   const { firstName, whiteList, email } = profile || {};
-  console.log("profile", profile);
   return (
     <div className="header-top">
       <div className="container">

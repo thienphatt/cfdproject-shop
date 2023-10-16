@@ -34,7 +34,7 @@ const Footer = () => {
                     <Link to={PATHS.ABOUT}>About Us</Link>
                   </li>
                   <li>
-                    <Link to={PATHS.PRODUCT_PATH.INDEX}>Product</Link>
+                    <Link to={PATHS.PRODUCT}>Product</Link>
                   </li>
                   <li>
                     <Link to={PATHS.FAQ}>FAQs</Link>
@@ -50,7 +50,7 @@ const Footer = () => {
                 <h4 className="widget-title">Customer Service</h4>
                 <ul className="widget-list">
                   <li>
-                    <Link to={PATHS.PAYMENMETHOD}>Payment Methods</Link>
+                    <Link to={PATHS.PAYMEN_METHOD}>Payment Methods</Link>
                   </li>
                   <li>
                     <Link to={PATHS.RETURN}>Returns</Link>

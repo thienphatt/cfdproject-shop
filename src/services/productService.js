@@ -7,10 +7,10 @@ export const productService = {
   getProductsBySlug(slug = "") {
     return axiosInstance.get(`/products/${slug}`);
   },
-  getProductCategories(query = "") {
+  getCategories(query = "") {
     return axiosInstance.get(`/product-categories${query}`);
   },
-  getProductCategories(slug = "") {
+  getCategoryBySlug(slug = "") {
     return axiosInstance.get(`/product-categories/${slug}`);
   },
 };

@@ -1,39 +1,60 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
+import PrivateRoute from "./components/PrivateRoute";
 import { PATHS } from "./constants/paths";
 import MainLayout from "./layout/MainLayout";
-import PrivateRoute from "./components/PrivateRoute";
 import AboutPage from "./pages/AboutPage";
 import BlogPage from "./pages/BlogPage";
 import BlogSinglePage from "./pages/BlogSinglePage";
-import ContactPage from "./pages/ContactPage";
-import HomePage from "./pages/HomePage";
-import Page404 from "./pages/Page404";
-import ProductDetailPage from "./pages/ProductDetailPage";
-import ProductPage from "./pages/ProductPage";
 import CardPage from "./pages/CardPage";
 import CheckoutPage from "./pages/CheckoutPage";
 import CheckoutSuccessPage from "./pages/CheckoutSuccessPage";
+import ContactPage from "./pages/ContactPage";
 import DashboardPage from "./pages/DashboardPage";
 import FAQPage from "./pages/FAQPage";
+import HomePage from "./pages/HomePage";
+import Page404 from "./pages/Page404";
 import PaymentMethodPage from "./pages/PaymentMethodPage";
+import ProductDetailPage from "./pages/ProductDetailPage";
+import ProductPage from "./pages/ProductPage";
 import ReturnsPage from "./pages/ReturnsPage";
 import ShippingPage from "./pages/ShippingPage";
-import { ConfigProvider } from "antd";
+import { useDispatch, useSelector } from "react-redux";
+import { increment, decrement } from "./store/action/counterAction";
+import { useEffect } from "react";
+import { fetchDog } from "./store/action/dogAction";
 
 function App() {
+  const counter = useSelector((state) => state.counter);
+  console.log("counter", counter);
+  const dispatch = useDispatch();
+
+  // khơi chạy dispatch fectRamdomdog 1 lần
+  useEffect(() => {
+    dispatch(fetchDog());
+  }, []);
+
+  const dog = useSelector((state) => state.dog);
+
   return (
     <BrowserRouter>
-      {/* <ConfigProvider
-        theme={{
-          components: {
-            Message: {
-              zIndexPopup: 1100,
-              zIndexBase: 1100,
-              zIndexPopupBase: 1100,
-            },
-          },
-        }}
-      > */}
+      {/* {
+        <div>
+          <h1>counter: {counter}</h1>
+          <button onClick={() => dispatch(increment(10))}>Increment</button>
+          <button onClick={() => dispatch(decrement())}>Decrement</button>
+        </div>
+      }
+
+      {
+        <div>
+          {dog?.message ? (
+            <img src={dog.message} atl="" />
+          ) : (
+            <p>Không tìm thấy ảnh cún nào!</p>
+          )}
+        </div>
+      } */}
+
       <Routes>
         <Route path={PATHS.HOME} element={<MainLayout />}>
           {/* HOMEPAGE */}
@@ -43,9 +64,7 @@ function App() {
           <Route path={PATHS.ABOUT} element={<AboutPage />} />
 
           {/* Blog Page */}
-          <Route path={PATHS.BLOG.INDEX} element={<BlogPage />}>
-            <Route path={PATHS.BLOG.DETAIL} element={<BlogSinglePage />} />
-          </Route>
+          <Route path={PATHS.BLOG} element={<BlogPage />}></Route>
 
           {/* Contact Page */}
           <Route path={PATHS.CONTACT} element={<ContactPage />} />
@@ -54,18 +73,14 @@ function App() {
           <Route path={PATHS.FAQ} element={<FAQPage />} />
 
           {/* Payment Method Page */}
-          <Route path={PATHS.PAYMENMETHOD} element={<PaymentMethodPage />} />
+          <Route path={PATHS.PAYMEN_METHOD} element={<PaymentMethodPage />} />
 
           {/* Privacy Policy Page */}
           <Route path={PATHS.PRIVACY_POLICY} />
 
           {/* Product Page */}
-          <Route path={PATHS.PRODUCT_PATH.INDEX} element={<ProductPage />}>
-            <Route
-              path={PATHS.PRODUCT_PATH.DETAIL}
-              element={<ProductDetailPage />}
-            />
-          </Route>
+          <Route path={PATHS.PRODUCT} element={<ProductPage />}></Route>
+          <Route path={PATHS.PRODUCT_DETAIL} element={<ProductDetailPage />} />
 
           {/* Return Page */}
           <Route path={PATHS.RETURN} element={<ReturnsPage />} />
@@ -74,23 +89,12 @@ function App() {
           <Route path={PATHS.SHIPPING} element={<ShippingPage />} />
 
           {/* Private Route */}
-          <Route element={<PrivateRoute redirectPath={PATHS.HOME} />}>
-            <Route path={PATHS.CARD} element={<CardPage />} />
-            <Route path={PATHS.CHECKOUT} element={<CheckoutPage />} />
-            <Route
-              path={PATHS.CHECKOUT_SUCCESS}
-              element={<CheckoutSuccessPage />}
-            />
-            <Route path={PATHS.PROFILE} element={<DashboardPage />} />
-          </Route>
 
           {/* 404 Page */}
           <Route path="*" element={<Page404 />} />
         </Route>
       </Routes>
-      {/* </ConfigProvider> */}
     </BrowserRouter>
   );
 }
-
 export default App;
