@@ -25,7 +25,6 @@ import { fetchDog } from "./store/action/dogAction";
 
 function App() {
   const counter = useSelector((state) => state.counter);
-  console.log("counter", counter);
   const dispatch = useDispatch();
 
   // khơi chạy dispatch fectRamdomdog 1 lần
