@@ -1,15 +1,11 @@
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import PrivateRoute from "./components/PrivateRoute";
 import { PATHS } from "./constants/paths";
 import MainLayout from "./layout/MainLayout";
 import AboutPage from "./pages/AboutPage";
 import BlogPage from "./pages/BlogPage";
-import BlogSinglePage from "./pages/BlogSinglePage";
-import CardPage from "./pages/CardPage";
-import CheckoutPage from "./pages/CheckoutPage";
-import CheckoutSuccessPage from "./pages/CheckoutSuccessPage";
 import ContactPage from "./pages/ContactPage";
-import DashboardPage from "./pages/DashboardPage";
 import FAQPage from "./pages/FAQPage";
 import HomePage from "./pages/HomePage";
 import Page404 from "./pages/Page404";
@@ -18,9 +14,6 @@ import ProductDetailPage from "./pages/ProductDetailPage";
 import ProductPage from "./pages/ProductPage";
 import ReturnsPage from "./pages/ReturnsPage";
 import ShippingPage from "./pages/ShippingPage";
-import { useDispatch, useSelector } from "react-redux";
-import { increment, decrement } from "./store/action/counterAction";
-import { useEffect } from "react";
 import { fetchDog } from "./store/action/dogAction";
 
 function App() {
