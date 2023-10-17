@@ -1,12 +1,18 @@
 import React from "react";
-import { useAuthContext } from "../../context/Authcontext";
-import tokenMethod from "../../utils/token";
+import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
-import { PATHS } from "../../constants/paths";
 import { MODAL_TYPE } from "../../constants/general";
+import { PATHS } from "../../constants/paths";
+import { useAuthContext } from "../../context/Authcontext";
+import {
+  handleLogout,
+  handleShowModal,
+} from "../../store/reducers/authReducer";
+import tokenMethod from "../../utils/token";
 
 const HeaderTop = () => {
-  const { handleShowModal, handleLogout, profile } = useAuthContext();
+  const { profile } = useAuthContext();
+  const dispatch = useDispatch();
   const { firstName, whiteList, email } = profile || {};
   return (
     <div className="header-top">
@@ -32,7 +38,7 @@ const HeaderTop = () => {
                   <i className="icon-user"></i>
                   <span
                     onClick={() => {
-                      handleShowModal(MODAL_TYPE.login);
+                      dispatch(handleShowModal());
                     }}
                   >
                     Login
@@ -82,8 +88,7 @@ const HeaderTop = () => {
                         <a
                           onClick={(e) => {
                             e.stopPropagation();
-                            e.preventDefault();
-                            handleLogout();
+                            dispatch(handleLogout());
                           }}
                           href="#"
                         >

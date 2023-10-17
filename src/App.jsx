@@ -1,5 +1,3 @@
-import { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { PATHS } from "./constants/paths";
 import MainLayout from "./layout/MainLayout";
@@ -14,39 +12,10 @@ import ProductDetailPage from "./pages/ProductDetailPage";
 import ProductPage from "./pages/ProductPage";
 import ReturnsPage from "./pages/ReturnsPage";
 import ShippingPage from "./pages/ShippingPage";
-import { fetchDog } from "./store/action/dogAction";
 
 function App() {
-  const counter = useSelector((state) => state.counter);
-  const dispatch = useDispatch();
-
-  // khơi chạy dispatch fectRamdomdog 1 lần
-  useEffect(() => {
-    dispatch(fetchDog());
-  }, []);
-
-  const dog = useSelector((state) => state.dog);
-
   return (
     <BrowserRouter>
-      {/* {
-        <div>
-          <h1>counter: {counter}</h1>
-          <button onClick={() => dispatch(increment(10))}>Increment</button>
-          <button onClick={() => dispatch(decrement())}>Decrement</button>
-        </div>
-      }
-
-      {
-        <div>
-          {dog?.message ? (
-            <img src={dog.message} atl="" />
-          ) : (
-            <p>Không tìm thấy ảnh cún nào!</p>
-          )}
-        </div>
-      } */}
-
       <Routes>
         <Route path={PATHS.HOME} element={<MainLayout />}>
           {/* HOMEPAGE */}

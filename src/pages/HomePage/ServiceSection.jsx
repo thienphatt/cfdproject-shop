@@ -1,11 +1,9 @@
 import React from "react";
 
 const ServiceSection = ({ services }) => {
-  console.log("services", services);
   const { shipping, return: returnService, sale, support } = services;
 
   const check = Object.values(services);
-  console.log("check", check);
 
   return (
     <div className="icon-boxes-container mt-2 mb-2 bg-transparent">
