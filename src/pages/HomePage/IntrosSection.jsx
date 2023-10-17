@@ -122,10 +122,10 @@ const IntrosSection = ({ introProducts }) => {
             <div className="intro-banners">
               {introProducts?.map((item, index) => {
                 const { name, images, slug, id } = item;
-                const productPath = PATHS.PRODUCTS + `/${slug}`;
+                const productPath = PATHS.PRODUCT + `/${slug}`;
                 return (
                   <div key={id || index} className="banner mb-lg-1 mb-xl-2">
-                    <a href="#">
+                    <a href={productPath}>
                       <img
                         src={images[0]}
                         alt="Banner"
