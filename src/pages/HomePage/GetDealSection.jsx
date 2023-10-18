@@ -1,6 +1,19 @@
 import React from "react";
+import { useForm } from "react-hook-form";
+import { MESSAGE, REGREX } from "../../constants/validate";
 
-const GetDealSection = () => {
+const GetDealSection = ({ handleSubscribeDeal }) => {
+  const {
+    reset,
+    register,
+    formState: { errors },
+    handleSubmit,
+  } = useForm();
+
+  const _onSubmit = (value) => {
+    handleSubscribeDeal?.(value, reset);
+  };
+
   return (
     <div className="container">
       <div
@@ -68,17 +81,23 @@ const GetDealSection = () => {
                 <p className="cta-desc">
                   and <br />
                   receive
-                  <span className="text-primary">$20 coupon</span> for first
+                  <span className="text-primary"> $20 coupon</span> for first
                   shopping
                 </p>
-                <form action="#">
+                <form onSubmit={handleSubmit(_onSubmit)}>
                   <div className="input-group">
                     <input
-                      type="email"
+                      type="text"
                       className="form-control"
                       placeholder="Enter your Email Address"
-                      aria-label="Email Adress"
-                      required
+                      // aria-label="Email Adress"
+                      {...register("email", {
+                        required: MESSAGE.required,
+                        pattern: {
+                          value: REGREX.email,
+                          message: MESSAGE.email,
+                        },
+                      })}
                     />
                     <div className="input-group-append">
                       <button
@@ -89,10 +108,16 @@ const GetDealSection = () => {
                       </button>
                     </div>
                   </div>
+                  <p
+                    className="form-error"
+                    style={{
+                      textAlign: "left",
+                      minHeight: 23,
+                    }}
+                  >
+                    {errors?.email?.message || ""}
+                  </p>
                 </form>
-                <p className="form-error text-left">
-                  Please fill in this field
-                </p>
               </div>
             </div>
           </div>

@@ -1,8 +1,10 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import tokenMethod from "../../utils/token";
+import { authService } from "../../services/authService";
+import { message } from "antd";
 
 const initialState = {
-  isShowModal: false,
+  isShowModal: "",
   profile: null,
 };
 
@@ -14,14 +16,92 @@ export const authSlice = createSlice({
       tokenMethod.remove();
       state.profile = null;
     },
-    handleShowModal: (state) => {
-      state.isShowModal = true;
+    handleShowModal: (state, action) => {
+      state.isShowModal = action.payload;
     },
+    handleCloseModal: (state) => {
+      state.isShowModal = "";
+    },
+  },
+  extraReducers: (builder) => {
+    builder.addCase(handleGetProfile.fulfilled, (state, action) => {
+      state.profile = action.payload;
+    });
+    builder.addCase(handleLogin.fulfilled, (state, action) => {
+      state.isShowModal = "";
+    });
   },
 });
 
 const { actions, reducer: authReducer } = authSlice;
 
-export const { handleLogout, handleShowModal } = actions;
+export const { handleLogout, handleShowModal, handleCloseModal } = actions;
 
 export default authReducer;
+
+export const handleRegister = createAsyncThunk(
+  "auth/handleRegister",
+  async (payload, thunkApi) => {
+    try {
+      const registerRes = await authService.register(payload);
+      if (registerRes?.data?.data?.id) {
+        message.success("Đăng ký thành công");
+        thunkApi.dispatch(
+          handleLogin({
+            email: payload.email,
+            password: payload.password,
+          })
+        );
+        return true;
+      } else {
+        throw false;
+      }
+    } catch (error) {
+      const errorInfo = error?.response?.data;
+      if (errorInfo.error === "Forbidden") {
+        message.error("Email đã được đăng ký");
+      }
+      return thunkApi.rejectWithValue(errorInfo);
+    }
+  }
+);
+
+export const handleLogin = createAsyncThunk(
+  "auth/handleLogin",
+  async (payload, thunkApi) => {
+    try {
+      const loginRes = await authService.login(payload);
+      const { token: accessToken, refreshToken } = loginRes?.data?.data || {};
+      tokenMethod.set({
+        accessToken,
+        refreshToken,
+      });
+
+      thunkApi.dispatch(handleGetProfile());
+
+      message.success("Đăng nhập thành công");
+
+      return true;
+    } catch (error) {
+      const errorInfo = error?.response?.data;
+      if (errorInfo.error === "Not Found") {
+        message.error("Username hoặc password không đúng");
+      }
+      return thunkApi.rejectWithValue(errorInfo);
+    }
+  }
+);
+
+export const handleGetProfile = createAsyncThunk(
+  "auth/getProfile",
+  async (_, thunkApi) => {
+    if (tokenMethod.get()) {
+      try {
+        const profileRes = await authService.getProfile();
+        return profileRes?.data?.data;
+      } catch (error) {
+        return thunkApi.rejectWithValue(error?.response?.data);
+      }
+    }
+  }
+);

@@ -16,6 +16,7 @@ const HomePage = () => {
     brandProps,
     featuredProps,
     serviceProps,
+    getDealProps,
   } = useHomePage();
 
   return (
@@ -36,7 +37,7 @@ const HomePage = () => {
         <hr className="mt-5 mb-0" />
       </div>
       <ServiceSection {...serviceProps} />
-      <GetDealSection />
+      <GetDealSection {...getDealProps} />
     </main>
   );
 };

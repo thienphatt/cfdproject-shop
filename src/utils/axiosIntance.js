@@ -13,7 +13,6 @@ axiosInstance.interceptors.response.use(
     return response;
   },
   async (error) => {
-    console.log("error", error);
     const originalRequest = error.config;
 
     // Nếu mã lỗi 403 hoặc 401 và request không chứa key _retry
@@ -41,7 +40,6 @@ axiosInstance.interceptors.response.use(
         // Gọi lại yêu cầu ban đầu với token mới
         return axiosInstance(originalRequest);
       } catch (error) {
-        console.log(error);
         // Xử lý lỗi nếu không thể cập nhật token mới
         tokenMethod.remove();
       }

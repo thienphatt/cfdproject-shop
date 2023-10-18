@@ -1,18 +1,31 @@
 import React from "react";
-import Input from "../Input";
 import { useForm } from "react-hook-form";
-import { useAuthContext } from "../../context/Authcontext";
+import { useDispatch } from "react-redux";
+import { handleRegister } from "../../store/reducers/authReducer";
+import Input from "../Input";
 
 const RegisterForm = () => {
-  const { handleRegister } = useAuthContext();
+  const dispatch = useDispatch();
   const {
     register,
     formState: { errors },
     handleSubmit,
   } = useForm();
 
-  const onSubmit = (data) => {
-    handleRegister(data);
+  const onSubmit = async (data) => {
+    if (data) {
+      const payload = {
+        firstName: data.name || "",
+        lastName: "",
+        email: data.email,
+        password: data.password,
+      };
+      try {
+        dispatch(handleRegister(payload));
+      } catch (error) {
+        console.log("error", error);
+      }
+    }
   };
   return (
     <div

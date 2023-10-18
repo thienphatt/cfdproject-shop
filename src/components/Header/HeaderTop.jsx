@@ -1,19 +1,45 @@
-import React from "react";
-import { useDispatch } from "react-redux";
-import { Link } from "react-router-dom";
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { Link, useNavigate } from "react-router-dom";
 import { MODAL_TYPE } from "../../constants/general";
 import { PATHS } from "../../constants/paths";
-import { useAuthContext } from "../../context/Authcontext";
 import {
+  handleGetProfile,
   handleLogout,
   handleShowModal,
 } from "../../store/reducers/authReducer";
 import tokenMethod from "../../utils/token";
 
 const HeaderTop = () => {
-  const { profile } = useAuthContext();
+  const navigate = useNavigate();
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (!!tokenMethod.get()) {
+      dispatch(handleGetProfile());
+    }
+  }, []);
+
+  const { profile } = useSelector((state) => state.auth);
+  console.log("profile", profile);
   const { firstName, whiteList, email } = profile || {};
+
+  // Click Showmodal
+  const _onShowAuthModal = (e) => {
+    e?.preventDefault();
+    e?.stopPropagation();
+    // handleShowModal?.(MODAL_TYPES.login);
+    dispatch(handleShowModal(MODAL_TYPE.register));
+  };
+
+  //click close modal
+  const _onSignOut = (e) => {
+    e.preventDefault();
+    // handleLogout();
+    dispatch(handleLogout());
+    navigate(PATHS.HOME);
+  };
+
   return (
     <div className="header-top">
       <div className="container">
@@ -24,7 +50,6 @@ const HeaderTop = () => {
         </div>
         <div className="header-right">
           {/* Not LogIn */}
-
           {!!!tokenMethod.get() ? (
             <ul className="top-menu top-link-menu">
               <li>
@@ -38,7 +63,7 @@ const HeaderTop = () => {
                   <i className="icon-user"></i>
                   <span
                     onClick={() => {
-                      dispatch(handleShowModal());
+                      _onShowAuthModal();
                     }}
                   >
                     Login
@@ -55,7 +80,7 @@ const HeaderTop = () => {
                   {/* <i className="icon-user"></i>{" "} */}
                   <span
                     onClick={() => {
-                      handleShowModal(MODAL_TYPE.register);
+                      _onShowAuthModal();
                     }}
                   >
                     Resgister
@@ -68,7 +93,7 @@ const HeaderTop = () => {
               <li>
                 <a href="#" className="top-link-menu">
                   <i className="icon-user" />
-                  {email}
+                  {firstName || email}
                 </a>
                 <ul>
                   <li>
@@ -87,8 +112,7 @@ const HeaderTop = () => {
                       <li>
                         <a
                           onClick={(e) => {
-                            e.stopPropagation();
-                            dispatch(handleLogout());
+                            _onSignOut(e);
                           }}
                           href="#"
                         >

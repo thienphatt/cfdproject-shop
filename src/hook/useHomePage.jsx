@@ -2,6 +2,10 @@ import { useState } from "react";
 import { pageService } from "../services/pageServices";
 import { productService } from "../services/productService";
 import useQuery from "./useQuery";
+import useMutation from "./useMutation";
+import { subscribeService } from "../services/subscribeService";
+import { message } from "antd";
+import { GENERAL_MESSAGE, HOME_MESSAGE } from "../constants/message";
 
 const useHomePage = () => {
   // API Handling
@@ -10,10 +14,13 @@ const useHomePage = () => {
   const { data: productsData } = useQuery(productService.getProducts);
   const products = productsData?.products || [];
 
-  //API Brands Section
+  //API Brands
   const { data: homeData } = useQuery(() =>
     pageService.getPageDataByName("home")
   );
+
+  //API get Deal
+  const { execute: dealExecute } = useMutation(subscribeService.subscribeDeal);
 
   // get  Brands data from pageService
   const brands = homeData?.data?.brands || [];
@@ -71,9 +78,26 @@ const useHomePage = () => {
   };
 
   // services Section
-
   const serviceProps = {
     services,
+  };
+
+  // Deal Section
+  const handleSubscribeDeal = (email, callback) => {
+    if (email) {
+      dealExecute(email, {
+        onSuccess: (data) => {
+          message.success(HOME_MESSAGE.dealSuccess);
+          callback?.();
+        },
+        onFail: (error) => {
+          message.error(GENERAL_MESSAGE.error);
+        },
+      });
+    }
+  };
+  const getDealProps = {
+    handleSubscribeDeal,
   };
 
   return {
@@ -83,6 +107,7 @@ const useHomePage = () => {
     brandProps,
     featuredProps,
     serviceProps,
+    getDealProps,
   };
 };
 

@@ -1,10 +1,11 @@
 import React from "react";
-import Input from "../Input";
 import { useForm } from "react-hook-form";
-import { useAuthContext } from "../../context/Authcontext";
+import { handleLogin } from "../../store/reducers/authReducer";
+import Input from "../Input";
+import { useDispatch } from "react-redux";
 
 const LoginForm = () => {
-  const { handleLogin } = useAuthContext();
+  const dispatch = useDispatch();
   const {
     register,
     formState: { errors },
@@ -12,7 +13,9 @@ const LoginForm = () => {
   } = useForm();
 
   const onSubmit = (data) => {
-    handleLogin(data);
+    if (data) {
+      dispatch(handleLogin(data));
+    }
   };
 
   return (

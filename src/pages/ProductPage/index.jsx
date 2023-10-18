@@ -30,8 +30,7 @@ const ProductPage = () => {
               <div className="toolbox">
                 <div className="toolbox-left">
                   <div className="toolbox-info">
-                    {" "}
-                    Showing <span>9 of 56</span> Products{" "}
+                    Showing <span>9 of 56</span> Products
                   </div>
                 </div>
                 <div className="toolbox-right">

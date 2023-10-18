@@ -1,12 +1,23 @@
 import React, { useState } from "react";
-import { useAuthContext } from "../../context/Authcontext";
+import { useDispatch, useSelector } from "react-redux";
+import { MODAL_TYPE } from "../../constants/general";
+import { handleCloseModal } from "../../store/reducers/authReducer";
 import LoginForm from "./LoginForm";
 import RegisterForm from "./RegisterForm";
-import { MODAL_TYPE } from "../../constants/general";
 
 const Modal = () => {
-  const { handleClosedModal, isShowModal, modalTyle, setModalTyle } =
-    useAuthContext();
+  const { isShowModal } = useSelector((state) => state.auth);
+
+  const dispath = useDispatch();
+
+  const [modalTyle, setModalTyle] = useState(MODAL_TYPE.login);
+
+  // const { modalTyle, setModalTyle } = useAuthContext();
+
+  const _onCloseModal = (e) => {
+    e?.preventDefault();
+    dispath(handleCloseModal());
+  };
 
   return (
     <>
@@ -37,7 +48,7 @@ const Modal = () => {
                 className="close"
                 data-dismiss="modal"
                 aria-label="Close"
-                onClick={handleClosedModal}
+                onClick={() => _onCloseModal()}
               >
                 <span aria-hidden="true">
                   <i className="icon-close" />
@@ -94,7 +105,7 @@ const Modal = () => {
         <div
           onClick={() =>
             // e.stopPropagation();
-            handleClosedModal()
+            _onCloseModal()
           }
           className="modal-backdrop fade show"
           style={{
