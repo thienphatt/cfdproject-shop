@@ -1,11 +1,15 @@
 import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { Link, NavLink } from "react-router-dom";
 import { PATHS } from "../../constants/paths";
-import { useMainContext } from "../../context/MainContext";
+import { handleShowNavbar } from "../../store/reducers/mainreducer";
 import { MenuStyle } from "../styled-components";
 
 const HeaderMiddle = () => {
-  const { isShowNavbar, handleShowNavbar } = useMainContext();
+  // const { isShowNavbar, handleShowNavbar } = useMainContext();
+
+  const { isShowNavbar } = useSelector((state) => state.main);
+  const dispath = useDispatch();
 
   useEffect(() => {
     if (isShowNavbar) {
@@ -19,7 +23,7 @@ const HeaderMiddle = () => {
 
   const _toggleMenu = (e) => {
     e?.stopPropagation();
-    handleShowNavbar(!isShowNavbar);
+    dispath(handleShowNavbar());
   };
 
   return (

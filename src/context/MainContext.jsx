@@ -7,6 +7,8 @@ const MainContextProvider = ({ children }) => {
   const [isShowNavbar, setIsShowNavbar] = useState(false);
   const { pathname } = useLocation();
 
+  console.log("pathname", pathname);
+
   useEffect(() => {
     // Khi đổi PATH sẽ tự động scroll Top
     window.scrollTo({

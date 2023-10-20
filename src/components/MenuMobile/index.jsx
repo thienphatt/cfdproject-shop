@@ -1,15 +1,24 @@
 import React from "react";
-import { MenuStyle } from "../styled-components";
+import { useDispatch } from "react-redux";
 import { NavLink } from "react-router-dom";
 import { PATHS } from "../../constants/paths";
-import { useMainContext } from "../../context/MainContext";
+import { MenuStyle } from "../styled-components";
+import { handleCloesNavbar } from "../../store/reducers/mainreducer";
 
 const MenuMobile = () => {
-  const { handleCloesNavbar } = useMainContext();
+  // const { handleCloesNavbar } = useMainContext();
+
+  const dispatch = useDispatch();
   return (
     <div className="mobile-menu-container">
       <div className="mobile-menu-wrapper">
-        <span className="mobile-menu-close" onClick={handleCloesNavbar}>
+        <span
+          className="mobile-menu-close"
+          onClick={(e) => {
+            e.preventDefault();
+            dispatch(handleCloesNavbar());
+          }}
+        >
           <i className="icon-close" />
         </span>
         <form action="#" method="get" className="mobile-search">

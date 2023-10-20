@@ -1,9 +1,16 @@
 import React from "react";
-import { useMainContext } from "../../context/MainContext";
+import { useDispatch } from "react-redux";
+import { handleCloesNavbar } from "../../store/reducers/mainreducer";
 
 const Overlay = () => {
-  const { handleCloesNavbar } = useMainContext();
-  return <div onClick={handleCloesNavbar} className="mobile-menu-overlay" />;
+  // const { handleCloesNavbar } = useMainContext();
+  const dispatch = useDispatch();
+  return (
+    <div
+      onClick={() => dispatch(handleCloesNavbar())}
+      className="mobile-menu-overlay"
+    />
+  );
 };
 
 export default Overlay;
