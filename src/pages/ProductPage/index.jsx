@@ -6,7 +6,8 @@ import ProductList from "./ProductList";
 import Pagination from "./Pagination";
 
 const ProductPage = () => {
-  const { productProps } = useProductPage();
+  const { productListProps, paginationProps } = useProductPage();
+  console.log("paginationProps", paginationProps);
   return (
     <main className="main">
       <div
@@ -23,8 +24,8 @@ const ProductPage = () => {
           <div className="row">
             <div className="col-lg-9">
               <ToolBox />
-              <ProductList {...productProps} />
-              <Pagination />
+              <ProductList {...productListProps} />
+              <Pagination {...paginationProps} />
             </div>
             <aside className="col-lg-3 order-lg-first">
               <div className="sidebar sidebar-shop">

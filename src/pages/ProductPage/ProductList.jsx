@@ -1,7 +1,13 @@
 import React from "react";
 import ProductCard from "../../components/ProductCard";
 
-const ProductList = ({ products }) => {
+const ProductList = ({ products, productsLoading, productsError }) => {
+  if ((!productsLoading && products?.length < 1) || productsError)
+    return (
+      <div className="products mb-3">
+        <div className="row justify-content-center">There is no products</div>
+      </div>
+    );
   return (
     <div className="products mb-3">
       <div className="row justify-content-center">

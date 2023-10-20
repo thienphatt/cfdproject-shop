@@ -1,6 +1,44 @@
-import React from "react";
+import React, { useMemo } from "react";
 
-const Pagination = () => {
+const PAGE_STEP = 1;
+
+const Pagination = ({ page, limit, total }) => {
+  // tính tổng số page : tổng số sản phẩm chia số sản phẩm của 1 trang
+
+  const totalPage = useMemo(() => {
+    if (!limit || !total) {
+      console.log("check");
+      return 1;
+    }
+    return Math.ceil(Number(total) / Number(limit) || 1);
+  }, [limit, total]);
+
+  const payList = useMemo(() => {
+    let start = page - PAGE_STEP;
+    let end = page + PAGE_STEP;
+
+    if (start <= 0) {
+      start = 1;
+      end = start + PAGE_STEP * 2;
+      if (end < totalPage) {
+        end = totalPage;
+      }
+    }
+
+    if (end >= totalPage) {
+      end = totalPage;
+      start = end - PAGE_STEP * 2;
+      if (start < 1) {
+        start = 1;
+      }
+    }
+
+    const list = [];
+    for (let i = start; i < end + 1; i++) {
+      list.push(i);
+    }
+  }, [page, totalPage]);
+
   return (
     <nav aria-label="Page navigation">
       <ul className="pagination justify-content-center">

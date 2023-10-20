@@ -5,27 +5,48 @@ const litmit = 6;
 
 const useProductPage = () => {
   // get API
-  const { data: productData } = useQuery((query) =>
+  const {
+    data: producstData,
+    loading: productsLoading,
+    error: productsError,
+    refetch: refetchProducts,
+  } = useQuery((query) =>
     productService.getProducts(query || `?limit=${litmit}`)
   );
 
-  const { data: categoriesData } = useQuery(productService.getCategories);
+  const {
+    data: categoriesData,
+    loading: categoriesLoading,
+    error: categoriesError,
+  } = useQuery(productService.getCategories);
   const categories = categoriesData?.products || [];
 
-  console.log("categories", categories);
-
-  const products = productData?.products || [];
-  const pagination = productData?.pagination || {};
+  const products = producstData?.products || [];
+  const pagination = producstData?.pagination || {};
 
   // Products
-  const productProps = {
+  const productListProps = {
     products,
+    productsLoading,
+    productsError,
+  };
+  //Pagination
+
+  const paginationProps = {
     pagination,
+    limit: pagination?.limit,
+    total: pagination?.total,
   };
 
-  //
+  //categories
+  const categorieProps = {
+    categories,
+    categoriesLoading,
+    categoriesError,
+    producstData,
+  };
 
-  return { productProps };
+  return { productListProps, categorieProps, paginationProps };
 };
 
 export default useProductPage;
