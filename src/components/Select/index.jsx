@@ -1,10 +1,19 @@
-import React from "react";
-
-const Select = ({ options, error, ...rest }) => {
+const Select = ({
+  options = [],
+  value = "",
+  error = "",
+  onChange = () => {},
+  ...rest
+}) => {
   return (
-    <select {...rest} className={`form__input ${error ? "formerror" : ""}`}>
-      {options.map((option) => (
-        <option key={option.value} value={option.value}>
+    <select
+      className={`select form__input ${!!error ? "formerror" : ""}`}
+      value={value || ""}
+      onChange={onChange}
+      {...rest}
+    >
+      {options.map((option, index) => (
+        <option key={option.value || index} value={option.value}>
           {option.label}
         </option>
       ))}

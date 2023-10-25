@@ -1,13 +1,18 @@
 import React from "react";
 import CheckBox from "../../components/CheckBox";
+import useDebounce from "../../hook/useDebounce";
+import { Skeleton } from "antd";
 
 const ProductsFilter = ({
   categories,
   isLoading,
   isError,
-  activeCatelogry,
+  activeCategory,
   onCateFilterChange,
 }) => {
+  console.log("isLoading", isLoading);
+  const loading = useDebounce(isLoading, 5000);
+
   const onFilterChange = (id, isChecked) => {
     if (isChecked) {
       onCateFilterChange(id);
@@ -15,9 +20,6 @@ const ProductsFilter = ({
       onCateFilterChange("");
     }
   };
-
-  console.log("activeCatelogry", activeCatelogry);
-
   return (
     <aside className="col-lg-3 order-lg-first">
       <div className="sidebar sidebar-shop">
@@ -25,7 +27,8 @@ const ProductsFilter = ({
           <label>Filters:</label>
           <a
             href="#"
-            onClick={() => {
+            onClick={(e) => {
+              e.preventDefault();
               onCateFilterChange("");
             }}
             className="sidebar-filter-clear"
@@ -42,91 +45,32 @@ const ProductsFilter = ({
               aria-expanded="true"
               aria-controls="widget-1"
             >
-              {" "}
-              Category{" "}
+              Category
             </a>
           </h3>
           <div className="collapse show" id="widget-1">
             <div className="widget-body">
               <div className="filter-items filter-items-count">
-                {categories?.map((category, i) => (
-                  <div key={category?.id || i} className="filter-item">
-                    <CheckBox
-                      id={category?.id || i}
-                      label={category.name || ""}
-                      checked={activeCatelogry === category?.id}
-                      onChange={(value) => {
-                        onFilterChange(category?.id, value.target.checked);
-                      }}
-                    />
-                  </div>
-                ))}
-
-                {/* <div className="filter-item">
-                  <div className="custom-control custom-checkbox">
-                    <input
-                      type="checkbox"
-                      className="custom-control-input"
-                      id="cat-1"
-                    />
-                    <label className="custom-control-label" htmlFor="cat-1">
-                      TV
-                    </label>
-                  </div>
-                  <span className="item-count">3</span>
-                </div>
-                <div className="filter-item">
-                  <div className="custom-control custom-checkbox">
-                    <input
-                      type="checkbox"
-                      className="custom-control-input"
-                      id="cat-2"
-                    />
-                    <label className="custom-control-label" htmlFor="cat-2">
-                      Computers
-                    </label>
-                  </div>
-                  <span className="item-count">0</span>
-                </div>
-                <div className="filter-item">
-                  <div className="custom-control custom-checkbox">
-                    <input
-                      type="checkbox"
-                      className="custom-control-input"
-                      id="cat-3"
-                    />
-                    <label className="custom-control-label" htmlFor="cat-3">
-                      Tablets &amp; Cell Phones
-                    </label>
-                  </div>
-                  <span className="item-count">4</span>
-                </div>
-                <div className="filter-item">
-                  <div className="custom-control custom-checkbox">
-                    <input
-                      type="checkbox"
-                      className="custom-control-input"
-                      id="cat-4"
-                    />
-                    <label className="custom-control-label" htmlFor="cat-4">
-                      Smartwatches
-                    </label>
-                  </div>
-                  <span className="item-count">2</span>
-                </div>
-                <div className="filter-item">
-                  <div className="custom-control custom-checkbox">
-                    <input
-                      type="checkbox"
-                      className="custom-control-input"
-                      id="cat-5"
-                    />
-                    <label className="custom-control-label" htmlFor="cat-5">
-                      Accessories
-                    </label>
-                  </div>
-                  <span className="item-count">2</span>
-                </div> */}
+                {loading
+                  ? Array(3)
+                      .fill("")
+                      .map((_, i) => (
+                        <div key={i} className="filter-item">
+                          <Skeleton active />
+                        </div>
+                      ))
+                  : categories?.map((category, i) => (
+                      <div key={category?.id || i} className="filter-item">
+                        <CheckBox
+                          id={category?.id || i}
+                          label={category.name || ""}
+                          checked={activeCategory === category?.id}
+                          onChange={(value) => {
+                            onFilterChange(category?.id, value.target.checked);
+                          }}
+                        />
+                      </div>
+                    ))}
               </div>
             </div>
           </div>

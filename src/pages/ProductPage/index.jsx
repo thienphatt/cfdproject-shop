@@ -1,14 +1,17 @@
 import React from "react";
-import useProductPage from "../../hook/useProductPage";
+import { Link } from "react-router-dom";
 import Breadcrumb from "../../components/Breadcrumb";
-import ToolBox from "./ToolBox";
-import ProductList from "./ProductList";
+import { PATHS } from "../../constants/paths";
+import useProductPage from "../../hook/useProductPage";
 import Pagination from "./Pagination";
+import ProductList from "./ProductList";
 import ProductsFilter from "./ProductsFilter";
+import ToolBox from "./ToolBox";
 
 const ProductPage = () => {
   const { productListProps, paginationProps, toolboxProps, filterProps } =
     useProductPage();
+
   return (
     <main className="main">
       <div
@@ -19,7 +22,12 @@ const ProductPage = () => {
           <h1 className="page-title">Product</h1>
         </div>
       </div>
-      <Breadcrumb></Breadcrumb>
+      <Breadcrumb>
+        <Breadcrumb.Item>
+          <Link to={PATHS.HOME}>Home</Link>
+        </Breadcrumb.Item>
+        <Breadcrumb.Item isActive>Product</Breadcrumb.Item>
+      </Breadcrumb>
       <div className="page-content">
         <div className="container">
           <div className="row">

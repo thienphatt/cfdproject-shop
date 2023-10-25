@@ -12,8 +12,6 @@ const DealSection = ({ dealProduction }) => {
     .set({ hour: 0, minute: 0, second: 0, millisecond: 0 }); // 0am tomorrow
 
   const dealOfTheDayProduct = dealProduction?.[0] || {};
-  console.log("moment", moment());
-
   return (
     <div className="bg-light deal-container pt-7 pb-7 mb-5">
       <div className="container">

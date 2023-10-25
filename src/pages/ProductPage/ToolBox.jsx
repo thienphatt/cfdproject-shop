@@ -10,10 +10,10 @@ const ToolBox = ({ showNumb, totalNumb, activeSort, onSortChange }) => {
     <div className="toolbox">
       <div className="toolbox-left">
         <div className="toolbox-info">
-          Showing{" "}
+          Showing
           <span>
             {showNumb || 0} of {totalNumb || 0}
-          </span>{" "}
+          </span>
           Products
         </div>
       </div>
@@ -22,7 +22,7 @@ const ToolBox = ({ showNumb, totalNumb, activeSort, onSortChange }) => {
           label="Sort by:"
           className="toolbox-sort"
           value={activeSort}
-          defaultValue={SORT_OPTIONS.popularity.value}
+          defaultValue={activeSort || SORT_OPTIONS.popularity.value}
           options={[
             SORT_OPTIONS.popularity,
             SORT_OPTIONS.pricelow,

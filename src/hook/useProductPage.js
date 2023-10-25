@@ -1,10 +1,9 @@
-import { useLocation, useSearchParams } from "react-router-dom";
-import { productService } from "../services/productService";
-import useQuery from "./useQuery";
 import queryString from "query-string";
 import { useEffect, useMemo } from "react";
+import { useLocation, useSearchParams } from "react-router-dom";
 import { SORT_OPTIONS } from "../constants/general";
-import useMutation from "./useMutation";
+import { productService } from "../services/productService";
+import useQuery from "./useQuery";
 
 const litmit = 6;
 
@@ -15,12 +14,13 @@ const useProductPage = () => {
   const [_, setSearchParams] = useSearchParams();
 
   // get API
+  // API Products
   const {
     data: producstData,
     loading: productsLoading,
     error: productsError,
-    execute: fetchProducts,
-  } = useMutation((query) =>
+    refetch: fetchData,
+  } = useQuery((query) =>
     productService.getProducts(query || `?limit=${litmit}`)
   );
 
@@ -31,7 +31,10 @@ const useProductPage = () => {
     });
     setSearchParams(new URLSearchParams(newQueryString));
   };
+  const products = producstData?.products || [];
+  const pagination = producstData?.pagination || {};
 
+  //API category
   const {
     data: categoriesData,
     loading: categoriesLoading,
@@ -39,19 +42,15 @@ const useProductPage = () => {
   } = useQuery(productService.getCategories);
 
   const categories = categoriesData?.products || [];
-
-  const products = producstData?.products || [];
-  const pagination = producstData?.pagination || {};
-
-  // Products
+  // Products props
   const productListProps = {
     products,
-    productsLoading,
-    productsError,
+    isLoading: productsLoading,
+    isError: productsError,
   };
 
   useEffect(() => {
-    fetchProducts?.(search);
+    fetchData?.(search);
   }, [search]);
 
   //Pagination
@@ -99,7 +98,6 @@ const useProductPage = () => {
   //filter props
 
   const onCateFilterChange = (cateId) => {
-    console.log("cateId", cateId);
     // let newCategory = Array.isArray(queryObject.category)
     //   ? [...queryObject.category, cateId]
     //   : [queryObject.category, cateId];
@@ -127,7 +125,12 @@ const useProductPage = () => {
     onCateFilterChange,
   };
 
-  return { productListProps, filterProps, paginationProps, toolboxProps };
+  return {
+    productListProps,
+    filterProps,
+    paginationProps,
+    toolboxProps,
+  };
 };
 
 export default useProductPage;

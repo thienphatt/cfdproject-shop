@@ -1,10 +1,22 @@
 import React from "react";
+import Breadcrumb from "../../components/Breadcrumb";
+import { Link, useParams } from "react-router-dom";
+import { PATHS } from "../../constants/paths";
 
 const ProductDetailPage = () => {
   return (
     <main className="main">
       <nav aria-label="breadcrumb" className="breadcrumb-nav border-0 mb-0">
         <div className="container d-flex align-items-center">
+          <Breadcrumb>
+            <Breadcrumb.Item>
+              <Link to={PATHS.HOME}>Home</Link>
+            </Breadcrumb.Item>
+            <Breadcrumb.Item>
+              <Link to={PATHS.PRODUCT}>Product</Link>
+            </Breadcrumb.Item>
+            <Breadcrumb.Item isActive>check</Breadcrumb.Item>
+          </Breadcrumb>
           <ol className="breadcrumb">
             <li className="breadcrumb-item">
               <a href="index.html">Home</a>
