@@ -12,8 +12,32 @@ import ProductDetailPage from "./pages/ProductDetailPage";
 import ProductPage from "./pages/ProductPage";
 import ReturnsPage from "./pages/ReturnsPage";
 import ShippingPage from "./pages/ShippingPage";
+import { useDispatch } from "react-redux";
+import { useEffect } from "react";
+import { message } from "antd";
+import { handleGetProfile } from "./store/reducers/authReducer";
+import { handleGetCart } from "./store/reducers/cartReducer";
+import tokenMethod from "./utils/token";
 
 function App() {
+  const dispatch = useDispatch();
+  useEffect(() => {
+    // antd message config
+    message.config({
+      top: 80,
+      duration: 3,
+      maxCount: 3,
+    });
+
+    if (tokenMethod.get()) {
+      // handleGetProfile
+      dispatch(handleGetProfile());
+
+      //get cart
+      dispatch(handleGetCart());
+    }
+  }, []);
+
   return (
     <BrowserRouter>
       <Routes>

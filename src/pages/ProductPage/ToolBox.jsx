@@ -6,6 +6,7 @@ const ToolBox = ({ showNumb, totalNumb, activeSort, onSortChange }) => {
   const onSelectChange = (e) => {
     onSortChange?.(e.target.value);
   };
+  console.log("activeSort", activeSort);
   return (
     <div className="toolbox">
       <div className="toolbox-left">
@@ -21,8 +22,8 @@ const ToolBox = ({ showNumb, totalNumb, activeSort, onSortChange }) => {
         <Select
           label="Sort by:"
           className="toolbox-sort"
-          value={activeSort}
-          defaultValue={activeSort || SORT_OPTIONS.popularity.value}
+          value={activeSort || ""}
+          // defaultValue={SORT_OPTIONS.popularity.value}
           options={[
             SORT_OPTIONS.popularity,
             SORT_OPTIONS.pricelow,

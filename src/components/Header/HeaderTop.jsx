@@ -21,7 +21,6 @@ const HeaderTop = () => {
   }, []);
 
   const { profile } = useSelector((state) => state.auth);
-  console.log("profile", profile);
   const { firstName, whiteList, email } = profile || {};
 
   // Click Showmodal

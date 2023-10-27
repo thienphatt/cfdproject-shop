@@ -2,7 +2,7 @@ import styled from "styled-components";
 import { PATHS } from "../../constants/paths";
 import { Link } from "react-router-dom";
 import { Empty } from "antd";
-import { formatCurrency } from "../../utils/format";
+import { formatCurrency, transformNumberToPrecent } from "../../utils/format";
 
 const ImageWrapper = styled.div`
   width: 100%;
@@ -28,7 +28,7 @@ const ProductCard = ({ product }) => {
         {discount > 0 && (
           <span className="product-label label-circle label-sale">Sale</span>
         )}
-        {/* Cố định height hình ảnh để tránh tình trạng kích thước ảnh không đồng bo65 */}
+        {/* Cố định height hình ảnh để tránh tình trạng kích thước ảnh không đồng bộ */}
         <Link to={productPath} style={{ height: 275 }}>
           {images?.length > 0 ? (
             <img
@@ -89,7 +89,7 @@ const ProductCard = ({ product }) => {
             <div
               className="ratings-val"
               style={{
-                width: `${(rating || 0) * 20}%`,
+                width: `${transformNumberToPrecent(rating)}%`,
               }}
             />
           </div>

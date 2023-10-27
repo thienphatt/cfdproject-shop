@@ -35,7 +35,7 @@ const HeaderMiddle = () => {
             <i className="icon-bars" />
           </button>
           <Link to={PATHS.HOME} className="logo">
-            <img src="assets/images/logo.svg" alt="Molla Logo" width={160} />
+            <img src="/assets/images/logo.svg" alt="Molla Logo" width={160} />
           </Link>
         </div>
         <nav className="main-nav">

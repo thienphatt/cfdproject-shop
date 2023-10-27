@@ -2,6 +2,7 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import tokenMethod from "../../utils/token";
 import { authService } from "../../services/authService";
 import { message } from "antd";
+import { handleGetCart } from "./cartReducer";
 
 const initialState = {
   isShowModal: "",
@@ -78,6 +79,7 @@ export const handleLogin = createAsyncThunk(
       });
 
       thunkApi.dispatch(handleGetProfile());
+      thunkApi.dispatch(handleGetCart());
 
       message.success("Đăng nhập thành công");
 

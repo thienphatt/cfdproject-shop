@@ -4,6 +4,7 @@ import { useLocation, useSearchParams } from "react-router-dom";
 import { SORT_OPTIONS } from "../constants/general";
 import { productService } from "../services/productService";
 import useQuery from "./useQuery";
+import useMutation from "./useMutation";
 
 const litmit = 6;
 
@@ -15,12 +16,20 @@ const useProductPage = () => {
 
   // get API
   // API Products
+  // const {
+  //   data: producstData,
+  //   loading: productsLoading,
+  //   error: productsError,
+  //   refetch: fetchData,
+  // } = useQuery((query) =>
+  //   productService.getProducts(query || `?limit=${litmit}`)
+  // );
   const {
     data: producstData,
     loading: productsLoading,
     error: productsError,
-    refetch: fetchData,
-  } = useQuery((query) =>
+    execute: fetchProducts,
+  } = useMutation((query) =>
     productService.getProducts(query || `?limit=${litmit}`)
   );
 
@@ -50,7 +59,7 @@ const useProductPage = () => {
   };
 
   useEffect(() => {
-    fetchData?.(search);
+    fetchProducts?.(search);
   }, [search]);
 
   //Pagination
@@ -97,32 +106,50 @@ const useProductPage = () => {
 
   //filter props
 
-  const onCateFilterChange = (cateId) => {
-    // let newCategory = Array.isArray(queryObject.category)
-    //   ? [...queryObject.category, cateId]
-    //   : [queryObject.category, cateId];
+  const onCateFilterChange = (cateId, isChecked) => {
+    let newCategory = Array.isArray(queryObject.category)
+      ? [...queryObject.category, cateId]
+      : [queryObject.category, cateId];
 
-    // if (!isCheck) {
-    //   newCategory = newCategory.filter((category) => category !== cateId);
-    // }
+    if (!isChecked) {
+      newCategory = newCategory.filter((category) => category !== cateId);
+    }
 
-    // if (cateId) {
-    //   newCategory = [];
-    // }
+    if (cateId === "") {
+      newCategory = [];
+    }
 
     updateQueryString({
       ...queryObject,
-      category: cateId,
+      category: newCategory,
       page: 1,
     });
+  };
+
+  const handleFilterChange = (value) => {
+    if (value?.length === 2) {
+      updateQueryString({
+        ...queryObject,
+        minPrice: value[0],
+        maxPrice: value[1],
+        page: 1,
+      });
+    }
   };
 
   const filterProps = {
     categories: categories || [],
     isLoading: categoriesLoading,
     isError: categoriesError,
-    activeCategory: queryObject.category,
+    activeCategory: Array.isArray(queryObject.category)
+      ? queryObject.category
+      : [queryObject.category],
+    currentPriceRange: [
+      queryObject.minPrice || 0,
+      queryObject.maxPrice || 1000,
+    ],
     onCateFilterChange,
+    handleFilterChange,
   };
 
   return {

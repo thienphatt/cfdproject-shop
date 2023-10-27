@@ -72,17 +72,17 @@
 //   }
 
 //   // // Mobile Menu Toggle - Show & Hide
-//   // $(".mobile-menu-toggler").on("click", function (e) {
-//   //   $body.toggleClass("mmenu-active");
-//   //   $(this).toggleClass("active");
-//   //   e.preventDefault();
-//   // });
+//   $(".mobile-menu-toggler").on("click", function (e) {
+//     $body.toggleClass("mmenu-active");
+//     $(this).toggleClass("active");
+//     e.preventDefault();
+//   });
 
-//   // $(".mobile-menu-overlay, .mobile-menu-close").on("click", function (e) {
-//   //   $body.removeClass("mmenu-active");
-//   //   $(".menu-toggler").removeClass("active");
-//   //   e.preventDefault();
-//   // });
+//   $(".mobile-menu-overlay, .mobile-menu-close").on("click", function (e) {
+//     $body.removeClass("mmenu-active");
+//     $(".menu-toggler").removeClass("active");
+//     e.preventDefault();
+//   });
 
 //   // Add Mobile menu icon arrows to items with children
 //   $(".mobile-menu")
@@ -273,39 +273,39 @@
 //     });
 //   }
 
-//   // function owlCarousels($wrap, options) {
-//   //   if ($.fn.owlCarousel) {
-//   //     var owlSettings = {
-//   //       items: 1,
-//   //       loop: true,
-//   //       margin: 0,
-//   //       responsiveClass: true,
-//   //       nav: true,
-//   //       navText: [
-//   //         '<i class="icon-angle-left">',
-//   //         '<i class="icon-angle-right">',
-//   //       ],
-//   //       dots: true,
-//   //       smartSpeed: 400,
-//   //       autoplay: false,
-//   //       autoplayTimeout: 15000,
-//   //     };
-//   //     if (typeof $wrap == "undefined") {
-//   //       $wrap = $("body");
-//   //     }
-//   //     if (options) {
-//   //       owlSettings = $.extend({}, owlSettings, options);
-//   //     }
+//   function owlCarousels($wrap, options) {
+//     if ($.fn.owlCarousel) {
+//       var owlSettings = {
+//         items: 1,
+//         loop: true,
+//         margin: 0,
+//         responsiveClass: true,
+//         nav: true,
+//         navText: [
+//           '<i class="icon-angle-left">',
+//           '<i class="icon-angle-right">',
+//         ],
+//         dots: true,
+//         smartSpeed: 400,
+//         autoplay: false,
+//         autoplayTimeout: 15000,
+//       };
+//       if (typeof $wrap == "undefined") {
+//         $wrap = $("body");
+//       }
+//       if (options) {
+//         owlSettings = $.extend({}, owlSettings, options);
+//       }
 
-//   //     // Init all carousel
-//   //     $wrap.find('[data-toggle="owl"]').each(function () {
-//   //       var $this = $(this),
-//   //         newOwlSettings = $.extend({}, owlSettings, $this.data("owl-options"));
+//       // Init all carousel
+//       $wrap.find('[data-toggle="owl"]').each(function () {
+//         var $this = $(this),
+//           newOwlSettings = $.extend({}, owlSettings, $this.data("owl-options"));
 
-//   //       $this.owlCarousel(newOwlSettings);
-//   //     });
-//   //   }
-//   // }
+//         $this.owlCarousel(newOwlSettings);
+//       });
+//     }
+//   }
 
 //   // Product Image Zoom plugin - product pages
 //   if ($.fn.elevateZoom) {
@@ -490,27 +490,27 @@
 //     });
 //   }
 
-//   // function isotopeFilter(filterNav, container) {
-//   //   $(filterNav)
-//   //     .find("a")
-//   //     .on("click", function (e) {
-//   //       var $this = $(this),
-//   //         filter = $this.attr("data-filter");
+//   function isotopeFilter(filterNav, container) {
+//     $(filterNav)
+//       .find("a")
+//       .on("click", function (e) {
+//         var $this = $(this),
+//           filter = $this.attr("data-filter");
 
-//   //       // Remove active class
-//   //       $(filterNav).find(".active").removeClass("active");
+//         // Remove active class
+//         $(filterNav).find(".active").removeClass("active");
 
-//   //       // Init filter
-//   //       $(container).isotope({
-//   //         filter: filter,
-//   //         transitionDuration: "0.7s",
-//   //       });
+//         // Init filter
+//         $(container).isotope({
+//           filter: filter,
+//           transitionDuration: "0.7s",
+//         });
 
-//   //       // Add active class
-//   //       $this.closest("li").addClass("active");
-//   //       e.preventDefault();
-//   //     });
-//   // }
+//         // Add active class
+//         $this.closest("li").addClass("active");
+//         e.preventDefault();
+//       });
+//   }
 
 //   /* Masonry / Grid Layout & Isotope Filter for blog/portfolio etc... */
 //   if (typeof imagesLoaded === "function" && $.fn.isotope) {
@@ -696,22 +696,22 @@
 //           },
 //           callbacks: {
 //             ajaxContentAdded: function () {
-//               // owlCarousels($(".quickView-content"), {
-//               //   onTranslate: function (e) {
-//               //     var $this = $(e.target),
-//               //       currentIndex =
-//               //         ($this.data("owl.carousel").current() +
-//               //           e.item.count -
-//               //           Math.ceil(e.item.count / 2)) %
-//               //         e.item.count;
-//               //     $(".quickView-content .carousel-dot")
-//               //       .eq(currentIndex)
-//               //       .addClass("active")
-//               //       .siblings()
-//               //       .removeClass("active");
-//               //     $(".curidx").html(currentIndex + 1);
-//               //   },
-//               // });
+//               owlCarousels($(".quickView-content"), {
+//                 onTranslate: function (e) {
+//                   var $this = $(e.target),
+//                     currentIndex =
+//                       ($this.data("owl.carousel").current() +
+//                         e.item.count -
+//                         Math.ceil(e.item.count / 2)) %
+//                       e.item.count;
+//                   $(".quickView-content .carousel-dot")
+//                     .eq(currentIndex)
+//                     .addClass("active")
+//                     .siblings()
+//                     .removeClass("active");
+//                   $(".curidx").html(currentIndex + 1);
+//                 },
+//               });
 //               quantityInputs();
 //             },
 //             open: function () {

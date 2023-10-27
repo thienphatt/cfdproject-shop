@@ -10,3 +10,8 @@ export const formatDate = (date, format = DATE_FORMAT) => {
   if (!!!date) return "";
   return moment(date).format(format);
 };
+
+export const transformNumberToPrecent = (number) => {
+  if (!number) return 0;
+  return (number * 100) / 5;
+};
