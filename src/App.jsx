@@ -18,68 +18,86 @@ import { message } from "antd";
 import { handleGetProfile } from "./store/reducers/authReducer";
 import { handleGetCart } from "./store/reducers/cartReducer";
 import tokenMethod from "./utils/token";
+import CardPage from "./pages/CardPage";
+import CheckoutPage from "./pages/CheckoutPage";
 
 function App() {
-  const dispatch = useDispatch();
-  useEffect(() => {
-    // antd message config
-    message.config({
-      top: 80,
-      duration: 3,
-      maxCount: 3,
-    });
+    const dispatch = useDispatch();
+    useEffect(() => {
+        // antd message config
+        message.config({
+            top: 80,
+            duration: 3,
+            maxCount: 3,
+        });
 
-    if (tokenMethod.get()) {
-      // handleGetProfile
-      dispatch(handleGetProfile());
+        if (tokenMethod.get()) {
+            // handleGetProfile
+            dispatch(handleGetProfile());
 
-      //get cart
-      dispatch(handleGetCart());
-    }
-  }, []);
+            //get cart
+            dispatch(handleGetCart());
+        }
+    }, []);
 
-  return (
-    <BrowserRouter>
-      <Routes>
-        <Route path={PATHS.HOME} element={<MainLayout />}>
-          {/* HOMEPAGE */}
-          <Route index element={<HomePage />} />
+    return (
+        <BrowserRouter>
+            <Routes>
+                <Route path={PATHS.HOME} element={<MainLayout />}>
+                    {/* HOMEPAGE */}
+                    <Route index element={<HomePage />} />
 
-          {/* AboutPage */}
-          <Route path={PATHS.ABOUT} element={<AboutPage />} />
+                    {/* AboutPage */}
+                    <Route path={PATHS.ABOUT} element={<AboutPage />} />
 
-          {/* Blog Page */}
-          <Route path={PATHS.BLOG} element={<BlogPage />}></Route>
+                    {/* Blog Page */}
+                    <Route path={PATHS.BLOG} element={<BlogPage />}></Route>
 
-          {/* Contact Page */}
-          <Route path={PATHS.CONTACT} element={<ContactPage />} />
+                    {/* Contact Page */}
+                    <Route path={PATHS.CONTACT} element={<ContactPage />} />
 
-          {/* FAQ page */}
-          <Route path={PATHS.FAQ} element={<FAQPage />} />
+                    {/* Cart page */}
+                    <Route path={PATHS.CARD} element={<CardPage />} />
 
-          {/* Payment Method Page */}
-          <Route path={PATHS.PAYMEN_METHOD} element={<PaymentMethodPage />} />
+                    {/* {check out} */}
 
-          {/* Privacy Policy Page */}
-          <Route path={PATHS.PRIVACY_POLICY} />
+                    <Route path={PATHS.CHECKOUT} element={<CheckoutPage />} />
 
-          {/* Product Page */}
-          <Route path={PATHS.PRODUCT} element={<ProductPage />}></Route>
-          <Route path={PATHS.PRODUCT_DETAIL} element={<ProductDetailPage />} />
+                    {/* FAQ page */}
+                    <Route path={PATHS.FAQ} element={<FAQPage />} />
 
-          {/* Return Page */}
-          <Route path={PATHS.RETURN} element={<ReturnsPage />} />
+                    {/* Payment Method Page */}
+                    <Route
+                        path={PATHS.PAYMEN_METHOD}
+                        element={<PaymentMethodPage />}
+                    />
 
-          {/* Shipping Page */}
-          <Route path={PATHS.SHIPPING} element={<ShippingPage />} />
+                    {/* Privacy Policy Page */}
+                    <Route path={PATHS.PRIVACY_POLICY} />
 
-          {/* Private Route */}
+                    {/* Product Page */}
+                    <Route
+                        path={PATHS.PRODUCT}
+                        element={<ProductPage />}
+                    ></Route>
+                    <Route
+                        path={PATHS.PRODUCT_DETAIL}
+                        element={<ProductDetailPage />}
+                    />
 
-          {/* 404 Page */}
-          <Route path="*" element={<Page404 />} />
-        </Route>
-      </Routes>
-    </BrowserRouter>
-  );
+                    {/* Return Page */}
+                    <Route path={PATHS.RETURN} element={<ReturnsPage />} />
+
+                    {/* Shipping Page */}
+                    <Route path={PATHS.SHIPPING} element={<ShippingPage />} />
+
+                    {/* Private Route */}
+
+                    {/* 404 Page */}
+                    <Route path="*" element={<Page404 />} />
+                </Route>
+            </Routes>
+        </BrowserRouter>
+    );
 }
 export default App;
