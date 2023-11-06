@@ -20,6 +20,7 @@ import { handleGetCart } from "./store/reducers/cartReducer";
 import tokenMethod from "./utils/token";
 import CardPage from "./pages/CardPage";
 import CheckoutPage from "./pages/CheckoutPage";
+import TestPage from "./pages/testPage";
 
 function App() {
     const dispatch = useDispatch();
@@ -95,6 +96,8 @@ function App() {
 
                     {/* 404 Page */}
                     <Route path="*" element={<Page404 />} />
+
+                    <Route path="test" element={<TestPage />} />
                 </Route>
             </Routes>
         </BrowserRouter>

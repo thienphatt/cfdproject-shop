@@ -152,8 +152,6 @@ export const handleAddCart = createAsyncThunk(
                 };
             }
 
-            console.log("addPayload", addPayload);
-
             const cartRes = await cartService.updateCart(addPayload);
 
             thunkApi.dispatch(handleGetCart());

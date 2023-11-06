@@ -91,6 +91,7 @@ const useProductDetailPage = () => {
         productDetailName: name,
         productDetailTopProps,
         productDetailTabProps,
+        handleAddToCart,
     };
 };
 
