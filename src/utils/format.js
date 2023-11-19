@@ -1,9 +1,9 @@
 import moment from "moment";
 import { DATE_FORMAT } from "../constants/format";
 
-export const formatCurrency = (data, type = "en-US", decimals = 3) => {
+export const formatCurrency = (data, decimals = 3) => {
     if (!data) return 0;
-    return data.toLocaleString(type, {
+    return data.toLocaleString("en-US", {
         minimumFractionDigits: decimals,
         maximumFractionDigits: decimals,
     });

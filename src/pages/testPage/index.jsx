@@ -1,60 +1,52 @@
+import Item from "antd/es/list/Item";
 import React, { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 import styled from "styled-components";
+import { SHIPPING_OPTIONS } from "../../constants/general";
 
 const TestContainer = styled.div`
     height: 100vh;
+    margin: 0 auto;
+    padding-top: 100px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+`;
+
+const FormRadio = styled.form`
+    label {
+        margin: 20px;
+    }
 `;
 
 const TestPage = () => {
-    const [themviec, setThemviec] = useState("");
+    const [valueRadio, setvalueRadio] = useState();
 
-    const [danhsachviec, setDanhsachviec] = useState(
-        JSON.parse(localStorage.getItem("viec")) || []
-    );
-
-    const _onSubmit = () => {
-        if (themviec.length > 0) {
-            setDanhsachviec(() => {
-                const danhsach = [...danhsachviec, themviec];
-                localStorage.setItem("viec", JSON.stringify(danhsach));
-
-                // localStotage.setItem("viec", JSON.stringify(danhsach));
-                return danhsach;
-            });
-
-            setThemviec("");
-        }
-    };
-
-    const _onRemoveClick = (index) => {
-        console.log("index", index);
-        console.log("danhsachviec", danhsachviec);
-        console.log("danhsachviecindex", danhsachviec[index]);
-        danhsachviec.splice(index, 1);
-
-        setDanhsachviec(
-            localStorage.setItem("viec", JSON.stringify(danhsachviec))
-        );
+    console.log("valueRadio", valueRadio);
+    const _onChange = (e) => {
+        setvalueRadio(e.target.value);
     };
 
     return (
         <TestContainer>
-            <input
-                value={themviec}
-                onChange={(e) => setThemviec(e.target.value)}
-            />
-            <button onClick={_onSubmit}>add</button>
-
-            <ul>
-                {danhsachviec?.map((item, i) => (
-                    <div key={i}>
-                        <li>{item}</li>
-                        <button onClick={() => _onRemoveClick(i)}>
-                            Delete
-                        </button>
-                    </div>
-                ))}
-            </ul>
+            <FormRadio>
+                {SHIPPING_OPTIONS.map((option, i) => {
+                    const { value, label, price } = option;
+                    return (
+                        <div key={i} className="form-group">
+                            <input
+                                type="radio"
+                                checked={value === valueRadio}
+                                value={value}
+                                id={value}
+                                onChange={(e) => _onChange(e)}
+                            />
+                            <label htmlFor={value}>{label}</label>
+                            <span>${price}</span>
+                        </div>
+                    );
+                })}
+            </FormRadio>
         </TestContainer>
     );
 };

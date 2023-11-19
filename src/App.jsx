@@ -21,6 +21,7 @@ import tokenMethod from "./utils/token";
 import CardPage from "./pages/CardPage";
 import CheckoutPage from "./pages/CheckoutPage";
 import TestPage from "./pages/testPage";
+import DashboardPage from "./pages/DashboardPage";
 
 function App() {
     const dispatch = useDispatch();
@@ -91,6 +92,9 @@ function App() {
 
                     {/* Shipping Page */}
                     <Route path={PATHS.SHIPPING} element={<ShippingPage />} />
+
+                    {/* {Dashboard} */}
+                    <Route path={PATHS.DASHBOARD} element={<DashboardPage />} />
 
                     {/* Private Route */}
 

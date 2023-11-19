@@ -42,6 +42,28 @@ export const cartSlice = createSlice({
         builder.addCase(handleAddCart.rejected, (state) => {
             state.cartLoading = false;
         });
+
+        // RemoveCart
+        builder.addCase(handleRemoveFormCard.pending, (state) => {
+            state.cartLoading = true;
+        });
+        builder.addCase(handleRemoveFormCard.fulfilled, (state) => {
+            state.cartLoading = false;
+        });
+        builder.addCase(handleRemoveFormCard.rejected, (state) => {
+            state.cartLoading = false;
+        });
+
+        // Update Cart
+        builder.addCase(handleUpdateCart.pending, (state) => {
+            state.cartLoading = true;
+        });
+        builder.addCase(handleUpdateCart.fulfilled, (state) => {
+            state.cartLoading = false;
+        });
+        builder.addCase(handleUpdateCart.rejected, (state) => {
+            state.cartLoading = false;
+        });
     },
 });
 
@@ -65,20 +87,85 @@ export const handleGetCart = createAsyncThunk(
     }
 );
 
+export const handleUpdateCart = createAsyncThunk(
+    "cart/update",
+    async (actionPayload, { dispatch }) => {
+        try {
+            const cartRes = await cartService.updateCart(actionPayload);
+            message.success("update success");
+            dispatch(handleGetCart());
+            return cartRes?.data?.data;
+        } catch (error) {
+            message.error("update fail");
+            thunkApi.rejectWithValue(error);
+        }
+    }
+);
+
+export const handleRemoveFormCard = createAsyncThunk(
+    "cart/remove",
+    async (actionPayload, thunkApi) => {
+        const removeIndex = actionPayload;
+        const { getState, rejectWithValue, dispatch } = thunkApi;
+        const { cartInfo } = getState()?.cart || {};
+
+        // neu trong cart ko co san pham return false
+        if (removeIndex < 0) return false;
+
+        try {
+            const newProduct = cartInfo?.product
+                ?.filter((_, i) => i !== removeIndex)
+                .map((item) => item.id);
+            const newQuantity = cartInfo?.quantity?.filter(
+                (_, i) => i !== removeIndex
+            );
+            const newVariant = cartInfo?.variant?.filter(
+                (_, i) => i !== removeIndex
+            );
+            const newTotalProduct = cartInfo?.totalProduct?.filter(
+                (_, i) => i !== removeIndex
+            );
+
+            const newSubTotal =
+                newTotalProduct.reduce((curr, next) => curr + next, 0) || 0;
+
+            const newTotal = newSubTotal - (cartInfo.discount ?? 0);
+            const updatePayload = {
+                ...cartInfo,
+                product: newProduct,
+                variant: newVariant,
+                quantity: newQuantity,
+                totalProduct: newTotalProduct,
+                subTotal: newSubTotal,
+                total: newTotal,
+                shipping: newProduct?.length > 0 ? cartInfo.shipping : {},
+                discount: newProduct?.length > 0 ? cartInfo.discount : 0,
+            };
+
+            const cartRes = await cartService.updateCart(updatePayload);
+            dispatch(handleGetCart());
+            message.success("Remove form cart success");
+            return cartRes?.data?.data;
+        } catch (error) {
+            rejectWithValue(error);
+            message.error("Remove form cart failed");
+            console.log("error", error);
+        }
+    }
+);
+
 export const handleAddCart = createAsyncThunk(
     "cart/add",
     async (actionPayload, thunkApi) => {
-        console.log("actionPayload", actionPayload);
         try {
             const { addedId, addedColor, addedQuantity, addedPrice } =
                 actionPayload;
-            console.log("actionPayload", actionPayload); //get state cartInfo : hàm thunkAPI cung cấp getState() -> .state cần lấy ra
+            //get state cartInfo : hàm thunkAPI cung cấp getState() -> .state cần lấy ra
             const { cartInfo } = thunkApi.getState()?.cart || {};
-            console.log("cartInfo", cartInfo);
-            console.log("addedquantity", addedQuantity);
+
             let addPayload = {}; // addPay for call API
             if (cartInfo.id) {
-                // check trong mảng product có thằng nào trùng với id sản phẩm đag ad ko
+                // check trong mảng product có thằng nào trùng với id sản phẩm đag add ko
                 const matchIndex = cartInfo.product?.findIndex(
                     (product, i) =>
                         product.id === addedId &&
@@ -108,8 +195,6 @@ export const handleAddCart = createAsyncThunk(
                             addedQuantity + newQuantity[matchIndex];
                         newTotalProduct[matchIndex] =
                             Number(newQuantity[matchIndex]) * addedPrice;
-
-                        console.log("newQuantity", newQuantity[matchIndex]);
                     } else {
                         newProduct.push(addedId);
                         newQuantity.push(addedQuantity);
@@ -126,7 +211,10 @@ export const handleAddCart = createAsyncThunk(
                 const newSubTotal =
                     newTotalProduct.reduce((curr, next) => curr + next, 0) || 0;
 
-                const newTotal = newSubTotal - cartInfo.discount;
+                const newTotal =
+                    newSubTotal -
+                        cartInfo.discount +
+                        cartInfo?.shipping?.price || 0;
 
                 addPayload = {
                     ...cartInfo,
