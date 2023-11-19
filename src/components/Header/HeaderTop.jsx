@@ -102,10 +102,13 @@ const HeaderTop = () => {
                     ) : (
                         <ul className="top-menu">
                             <li>
-                                <a href="#" className="top-link-menu">
+                                <Link
+                                    to={PATHS.DASHBOARD}
+                                    className="top-link-menu"
+                                >
                                     <i className="icon-user" />
                                     {firstName || email}
-                                </a>
+                                </Link>
                                 <ul>
                                     <li>
                                         <ul>
@@ -115,12 +118,14 @@ const HeaderTop = () => {
                                                 </Link>
                                             </li>
                                             <li>
-                                                <Link to={PATHS.PROFILE}>
+                                                <Link to={PATHS.PROFILE.ORDER}>
                                                     Your Orders
                                                 </Link>
                                             </li>
                                             <li>
-                                                <Link to={PATHS.PROFILE}>
+                                                <Link
+                                                    to={PATHS.PROFILE.WISHLIST}
+                                                >
                                                     Wishlist{" "}
                                                     <span>
                                                         ({whiteList?.length})

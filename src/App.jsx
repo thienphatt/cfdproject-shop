@@ -22,6 +22,11 @@ import CardPage from "./pages/CardPage";
 import CheckoutPage from "./pages/CheckoutPage";
 import TestPage from "./pages/testPage";
 import DashboardPage from "./pages/DashboardPage";
+import AccountDetail from "./pages/DashboardPage/AccountDetail";
+import Order from "./pages/DashboardPage/Order";
+import Address from "./pages/DashboardPage/Address";
+import WishList from "./pages/DashboardPage/WishList";
+import PrivateRoute from "./components/PrivateRoute";
 
 function App() {
     const dispatch = useDispatch();
@@ -94,7 +99,26 @@ function App() {
                     <Route path={PATHS.SHIPPING} element={<ShippingPage />} />
 
                     {/* {Dashboard} */}
-                    <Route path={PATHS.DASHBOARD} element={<DashboardPage />} />
+                    <Route element={<PrivateRoute redirectPath={PATHS.HOME} />}>
+                        <Route
+                            path={PATHS.DASHBOARD}
+                            element={<DashboardPage />}
+                        >
+                            <Route index end element={<AccountDetail />} />
+                            <Route
+                                path={PATHS.PROFILE.ORDER}
+                                element={<Order />}
+                            />
+                            <Route
+                                path={PATHS.PROFILE.ADDRESS}
+                                element={<Address />}
+                            />
+                            <Route
+                                path={PATHS.PROFILE.WISHLIST}
+                                element={<WishList />}
+                            />
+                        </Route>
+                    </Route>
 
                     {/* Private Route */}
 

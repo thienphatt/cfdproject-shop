@@ -19,6 +19,8 @@ const HomePage = () => {
         getDealProps,
     } = useHomePage();
 
+    console.log("check1");
+
     return (
         <main className="main">
             <IntrosSection {...introProps} />

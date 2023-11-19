@@ -1,8 +1,8 @@
 const PRODUCT_PATH = "/products";
-const PROFILE_PATH = "/profile";
-const PROFILE_ORDER = "/profile/order";
-const PROFILE_ADDRESS = "/profile/address";
-const PROFILE_WISHLIST = "/profile/wishlist";
+const PROFILE_PATH = "/dashboard";
+const PROFILE_ORDER = "/dashboard/order";
+const PROFILE_ADDRESS = "/dashboard/address";
+const PROFILE_WISHLIST = "/dashboard/wishlist";
 
 export const PATHS = {
     HOME: "/",

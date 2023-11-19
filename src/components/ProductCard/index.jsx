@@ -8,6 +8,8 @@ import { handleAddCart } from "../../store/reducers/cartReducer";
 import tokenMethod from "../../utils/token";
 import { handleShowModal } from "../../store/reducers/authReducer";
 import { MODAL_TYPE } from "../../constants/general";
+import useQuery from "../../hook/useQuery";
+import { productService } from "../../services/productService";
 
 const ImageWrapper = styled.div`
     width: 100%;
@@ -21,8 +23,17 @@ const ImageWrapper = styled.div`
 const ProductCard = ({ product }) => {
     const dispatch = useDispatch();
 
+    console.log("check");
+
     const { id, slug, title, price, rating, images, discount, color } =
         product || {};
+
+    const { data: productDetailReviews } = useQuery(
+        () => id && productService.getProductReview(id),
+        [id]
+    );
+
+    const review = productDetailReviews?.length;
 
     const productPath = PATHS.PRODUCT + `/${slug}`;
 
@@ -131,7 +142,7 @@ const ProductCard = ({ product }) => {
                             }}
                         />
                     </div>
-                    <span className="ratings-text">( {rating} Reviews )</span>
+                    <span className="ratings-text">( {review} Reviews )</span>
                 </div>
             </div>
         </div>
