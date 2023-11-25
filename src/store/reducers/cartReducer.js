@@ -172,8 +172,6 @@ export const handleAddCart = createAsyncThunk(
                         cartInfo.variant[i] === addedColor
                 );
 
-                console.log("matchIndex", matchIndex);
-
                 // tạo product mới -> map tất cả id product vào product mới
                 const newProduct = cartInfo.product?.map(
                     (product) => product.id

@@ -1,11 +1,12 @@
 import React from "react";
 import { useDispatch } from "react-redux";
-import { NavLink, Outlet, useNavigate } from "react-router-dom";
+import { Link, NavLink, Outlet, useNavigate } from "react-router-dom";
 import { ANTMESSAGE } from "../../constants/messageConfig";
 import { PATHS } from "../../constants/paths";
 import { handleLogout } from "../../store/reducers/authReducer";
 import { clearCar } from "../../store/reducers/cartReducer";
 import { message } from "antd";
+import Breadcrumb from "../../components/Breadcrumb";
 
 const DashboardPage = () => {
     const navigate = useNavigate();
@@ -24,28 +25,19 @@ const DashboardPage = () => {
             <div
                 className="page-header text-center"
                 style={{
-                    backgroundImage: 'url("assets/images/page-header-bg.jpg")',
+                    backgroundImage: 'url("/assets/images/page-header-bg.jpg")',
                 }}
             >
                 <div className="container">
                     <h1 className="page-title">My Account</h1>
                 </div>
             </div>
-            <nav aria-label="breadcrumb" className="breadcrumb-nav mb-3">
-                <div className="container">
-                    <ol className="breadcrumb">
-                        <li className="breadcrumb-item">
-                            <a href="index.html">Home</a>
-                        </li>
-                        <li
-                            className="breadcrumb-item active"
-                            aria-current="page"
-                        >
-                            My Account
-                        </li>
-                    </ol>
-                </div>
-            </nav>
+            <Breadcrumb>
+                <Breadcrumb.Item>
+                    <Link to={"/"}>HOME</Link>
+                </Breadcrumb.Item>
+                <Breadcrumb.Item isActive>My Account</Breadcrumb.Item>
+            </Breadcrumb>
             <div className="page-content">
                 <div className="dashboard">
                     <div className="container">

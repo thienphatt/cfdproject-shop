@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { PATHS } from "../../constants/paths";
 import { Link } from "react-router-dom";
-import { Empty } from "antd";
+import { Empty, message } from "antd";
 import { formatCurrency, transformNumberToPrecent } from "../../utils/format";
 import { useDispatch } from "react-redux";
 import { handleAddCart } from "../../store/reducers/cartReducer";
@@ -10,6 +10,7 @@ import { handleShowModal } from "../../store/reducers/authReducer";
 import { MODAL_TYPE } from "../../constants/general";
 import useQuery from "../../hook/useQuery";
 import { productService } from "../../services/productService";
+import { handleAddToWishList } from "../../store/reducers/wishListReducer";
 
 const ImageWrapper = styled.div`
     width: 100%;
@@ -22,8 +23,6 @@ const ImageWrapper = styled.div`
 
 const ProductCard = ({ product }) => {
     const dispatch = useDispatch();
-
-    console.log("check");
 
     const { id, slug, title, price, rating, images, discount, color } =
         product || {};
@@ -54,14 +53,18 @@ const ProductCard = ({ product }) => {
         } else {
             dispatch(handleShowModal(MODAL_TYPE.login));
         }
+    };
 
-        // const payload = {
-        //     addedId: id,
-        //     addedColor: color?.[0] || "",
-        //     addedQuantity: 1,
-        //     addedPrice: price - discount,
-        // };
-        // dispatch(handleAddCart(payload));
+    const _onAddToWhistList = (e) => {
+        e?.preventDefault();
+
+        if (tokenMethod?.get()) {
+            dispatch(handleAddToWishList(id));
+
+            // const res = dispatch(handleAddCart(addPayload)?.unwrap());
+        } else {
+            dispatch(handleShowModal(MODAL_TYPE.login));
+        }
     };
 
     return (
@@ -99,8 +102,9 @@ const ProductCard = ({ product }) => {
                     <a
                         href="#"
                         className="btn-product-icon btn-wishlist btn-expandable"
+                        onClick={_onAddToWhistList}
                     >
-                        <span>add to wishlist</span>
+                        <span>Add To Wishlist</span>
                     </a>
                 </div>
                 <div className="product-action product-action-dark">

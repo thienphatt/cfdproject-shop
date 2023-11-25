@@ -4,6 +4,7 @@ import { authService } from "../../services/authService";
 import tokenMethod from "../../utils/token";
 import { clearCar, handleGetCart } from "./cartReducer";
 import { useDispatch, useSelector } from "react-redux";
+import { updateCacheWishList } from "./wishListReducer";
 
 const initialState = {
     isShowModal: "",
@@ -102,6 +103,11 @@ export const handleGetProfile = createAsyncThunk(
         if (tokenMethod.get()) {
             try {
                 const profileRes = await authService.getProfile();
+
+                thunkApi.dispatch(
+                    updateCacheWishList(profileRes?.data?.data?.whiteList)
+                );
+
                 return profileRes?.data?.data;
             } catch (error) {
                 return thunkApi.rejectWithValue(error?.response?.data);

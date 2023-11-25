@@ -8,6 +8,7 @@ import { handleAddCart } from "../store/reducers/cartReducer";
 import tokenMethod from "../utils/token";
 import { handleShowModal } from "../store/reducers/authReducer";
 import { MODAL_TYPE } from "../constants/general";
+import { handleAddToWishList } from "../store/reducers/wishListReducer";
 
 const useProductDetailPage = () => {
     const dispatch = useDispatch();
@@ -69,7 +70,7 @@ const useProductDetailPage = () => {
     };
 
     const handleAddToWhisList = () => {
-        console.log("check");
+        dispatch(handleAddToWishList(id));
     };
 
     const productDetailTopProps = {

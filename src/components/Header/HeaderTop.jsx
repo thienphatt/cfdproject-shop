@@ -30,7 +30,6 @@ const HeaderTop = () => {
     const _onShowAuthModal = (e, modalType) => {
         e?.preventDefault();
         e?.stopPropagation();
-        console.log("modalType", modalType);
         // handleShowModal?.(MODAL_TYPES.login);
         dispatch(handleShowModal(modalType));
     };
@@ -126,7 +125,7 @@ const HeaderTop = () => {
                                                 <Link
                                                     to={PATHS.PROFILE.WISHLIST}
                                                 >
-                                                    Wishlist{" "}
+                                                    Wishlist
                                                     <span>
                                                         ({whiteList?.length})
                                                     </span>
