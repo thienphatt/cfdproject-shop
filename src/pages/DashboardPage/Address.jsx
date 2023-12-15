@@ -5,7 +5,7 @@ import { PATHS } from "../../constants/paths";
 
 const Address = () => {
     const { profile } = useSelector((state) => state.auth);
-    const { phone, email, firstName } = profile || {};
+    const { phone, email, firstName, lastName } = profile || {};
 
     return (
         <div
@@ -24,7 +24,8 @@ const Address = () => {
                         <div className="card-body">
                             <h3 className="card-title">Billing Address</h3>
                             <p>
-                                <strong>Fullname:</strong> {firstName || ""}
+                                <strong>Full Name:</strong>{" "}
+                                {firstName + lastName || ""}
                                 <br />
                                 <strong>Email:</strong> {email || ""}
                                 <br />

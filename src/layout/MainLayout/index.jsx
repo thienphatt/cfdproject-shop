@@ -1,4 +1,5 @@
 import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { Outlet, useLocation } from "react-router-dom";
 import BackToTop from "../../components/BackToTop";
 import Footer from "../../components/Footer";
@@ -6,10 +7,12 @@ import Header from "../../components/Header";
 import MenuMobile from "../../components/MenuMobile";
 import Modal from "../../components/Modal";
 import Overlay from "../../components/Overlay";
-import { useDispatch } from "react-redux";
+import { handleCloesNavbar } from "../../store/reducers/mainReducer";
 
 const MainLayout = () => {
     const { pathname } = useLocation();
+    const { isShowNavbar } = useSelector((state) => state.main);
+    console.log("showNavbar", isShowNavbar);
     const dispath = useDispatch();
     useEffect(() => {
         // Khi đổi PATH sẽ tự động scroll Top
@@ -18,6 +21,8 @@ const MainLayout = () => {
             left: 0,
             behavior: "smooth",
         });
+
+        dispath(handleCloesNavbar());
     }, [pathname]);
 
     return (

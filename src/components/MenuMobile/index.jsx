@@ -10,20 +10,14 @@ const menuTab = {
 };
 
 const MenuMobile = () => {
-    // const { handleCloesNavbar } = useMainContext();
-
     const [tabMenu, setTabMenu] = useState(menuTab.menu);
-
     const dispatch = useDispatch();
     return (
         <div className="mobile-menu-container">
             <div className="mobile-menu-wrapper">
                 <span
                     className="mobile-menu-close"
-                    onClick={(e) => {
-                        e.preventDefault();
-                        // dispatch(handleCloesNavbar());
-                    }}
+                    onClick={() => dispatch(handleCloesNavbar())}
                 >
                     <i className="icon-close" />
                 </span>

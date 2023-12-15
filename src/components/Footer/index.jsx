@@ -115,11 +115,7 @@ const Footer = () => {
             <div className="footer-bottom">
                 <div className="container">
                     <p className="footer-copyright">
-                        Copyright © 2023{" "}
-                        <a href="https://cfdcircle.vn/" target="_blank">
-                            <strong>CFD Circle</strong>
-                        </a>
-                        . All Rights Reserved.
+                        Copyright © 2023 . All Rights Reserved.
                     </p>
                     <figure className="footer-payments">
                         <img

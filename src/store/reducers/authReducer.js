@@ -102,7 +102,6 @@ export const handleGetProfile = createAsyncThunk(
         if (tokenMethod.get()) {
             try {
                 const profileRes = await authService.getProfile();
-
                 thunkApi.dispatch(
                     updateCacheWishList(profileRes?.data?.data?.whiteList)
                 );

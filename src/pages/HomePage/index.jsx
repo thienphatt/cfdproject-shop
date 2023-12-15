@@ -26,9 +26,9 @@ const HomePage = () => {
             <div className="mb-7 mb-lg-11" />
             <DealSection {...hotDealProps} />
             <BrandSection {...brandProps} />
-            <div className="container">
+            {/* <div className="container">
                 <hr className="mt-3 mb-6" />
-            </div>
+            </div> */}
             <div className="container">
                 <hr className="mt-5 mb-6" />
             </div>

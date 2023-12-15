@@ -135,6 +135,9 @@ const IntrosSection = ({ introProducts }) => {
                                             display: "flex",
                                             flexDirection: "row-reverse",
                                             alignItems: "center",
+                                            justifyContent: "space-between",
+                                            paddingLeft: "20px",
+                                            border: "1px solid #ebebeb",
                                         }}
                                     >
                                         <div className="test">

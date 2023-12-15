@@ -17,12 +17,6 @@ const HeaderTop = () => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
 
-    useEffect(() => {
-        if (!!tokenMethod.get()) {
-            dispatch(handleGetProfile());
-        }
-    }, []);
-
     const { profile } = useSelector((state) => state.auth);
     const { firstName, whiteList, email } = profile || {};
 

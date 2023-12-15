@@ -10,20 +10,14 @@ import { handleShowNavbar } from "../../store/reducers/mainReducer";
 
 const HeaderMiddle = () => {
     const dispath = useDispatch();
-
     const { headerMiddleProps } = useHeaderMiddle();
-
-    const _toggleMenu = (e) => {
-        e?.stopPropagation();
-        dispath(handleShowNavbar());
-    };
 
     return (
         <div className="header-middle sticky-header">
             <div className="container">
                 <div className="header-left">
                     <button
-                        onClick={_toggleMenu}
+                        onClick={() => dispath(handleShowNavbar())}
                         className="mobile-menu-toggler"
                     >
                         <span className="sr-only">Toggle mobile menu</span>
