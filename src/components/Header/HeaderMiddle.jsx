@@ -1,12 +1,11 @@
-import React, { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import React from "react";
+import { useDispatch } from "react-redux";
 import { Link, NavLink } from "react-router-dom";
 import { PATHS } from "../../constants/paths";
 import useHeaderMiddle from "../../hook/useHeaderMiddle";
-import { handleShowNavbar } from "../../store/reducers/mainreducer";
+import HeaderCardDropDown from "../CartDropDown";
 import { MenuStyle } from "../styled-components";
 import HeaderSearch from "./HeaderSearch";
-import HeaderCardDropDown from "../CartDropDown";
 
 const HeaderMiddle = () => {
     const dispath = useDispatch();
@@ -15,7 +14,7 @@ const HeaderMiddle = () => {
 
     const _toggleMenu = (e) => {
         e?.stopPropagation();
-        dispath(handleShowNavbar());
+        console.log("check");
     };
 
     return (

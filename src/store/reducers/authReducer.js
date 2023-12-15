@@ -2,8 +2,7 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { message } from "antd";
 import { authService } from "../../services/authService";
 import tokenMethod from "../../utils/token";
-import { clearCar, handleGetCart } from "./cartReducer";
-import { useDispatch, useSelector } from "react-redux";
+import { handleGetCart } from "./cartReducer";
 import { updateCacheWishList } from "./wishListReducer";
 
 const initialState = {
