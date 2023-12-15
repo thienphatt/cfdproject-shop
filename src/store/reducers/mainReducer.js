@@ -12,7 +12,7 @@ export const mainSlice = createSlice({
             $("body").addClass("mmenu-active");
             $("body").css("overflow-y", "hidden");
         },
-        handleCloesNavbar: (state) => {
+        handleCloesNavbar: () => {
             $("body").removeClass("mmenu-active");
             $("body").css("overflow", "visible");
         },
