@@ -6,6 +6,7 @@ import useHeaderMiddle from "../../hook/useHeaderMiddle";
 import HeaderCardDropDown from "../CartDropDown";
 import { MenuStyle } from "../styled-components";
 import HeaderSearch from "./HeaderSearch";
+import { handleShowNavbar } from "../../store/reducers/mainReducer";
 
 const HeaderMiddle = () => {
     const dispath = useDispatch();
@@ -14,7 +15,7 @@ const HeaderMiddle = () => {
 
     const _toggleMenu = (e) => {
         e?.stopPropagation();
-        console.log("check");
+        dispath(handleShowNavbar());
     };
 
     return (
