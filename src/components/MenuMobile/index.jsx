@@ -3,7 +3,6 @@ import { useDispatch } from "react-redux";
 import { NavLink } from "react-router-dom";
 import { PATHS } from "../../constants/paths";
 import { MenuStyle } from "../styled-components";
-import { handleCloesNavbar } from "../../store/reducers/mainreducer";
 
 const menuTab = {
     menu: "menu",
@@ -23,7 +22,7 @@ const MenuMobile = () => {
                     className="mobile-menu-close"
                     onClick={(e) => {
                         e.preventDefault();
-                        dispatch(handleCloesNavbar());
+                        // dispatch(handleCloesNavbar());
                     }}
                 >
                     <i className="icon-close" />
