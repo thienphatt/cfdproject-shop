@@ -7,7 +7,6 @@ import MenuMobile from "../../components/MenuMobile";
 import Modal from "../../components/Modal";
 import Overlay from "../../components/Overlay";
 import { useDispatch } from "react-redux";
-import { handleCloesNavbar } from "../../store/reducers/mainreducer";
 
 const MainLayout = () => {
     const { pathname } = useLocation();
@@ -19,7 +18,6 @@ const MainLayout = () => {
             left: 0,
             behavior: "smooth",
         });
-        dispath(handleCloesNavbar());
     }, [pathname]);
 
     return (
