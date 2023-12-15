@@ -9,12 +9,12 @@ export const mainSlice = createSlice({
     initialState,
     reducers: {
         handleShowNavbar: () => {
-            $("body").addClass("mmenu-active");
-            $("body").css("overflow-y", "hidden");
+            document.body.classList.add("mmenu-active");
+            document.body.style.overflowY = "hidden";
         },
         handleCloesNavbar: () => {
-            $("body").removeClass("mmenu-active");
-            $("body").css("overflow", "visible");
+            document.body.classList.remove("mmenu-active");
+            document.body.style.overflowY = "visible";
         },
     },
 });
