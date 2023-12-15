@@ -27,11 +27,12 @@ import Order from "./pages/DashboardPage/Order";
 import Address from "./pages/DashboardPage/Address";
 import WishList from "./pages/DashboardPage/WishList";
 import PrivateRoute from "./components/PrivateRoute";
+import CheckoutSuccessPage from "./pages/CheckoutSuccessPage";
 
 function App() {
     const dispatch = useDispatch();
     useEffect(() => {
-        // antd message config
+        // antd message config to below the background
         message.config({
             top: 80,
             duration: 3,
@@ -67,8 +68,13 @@ function App() {
                     <Route path={PATHS.CARD} element={<CardPage />} />
 
                     {/* {check out} */}
-
                     <Route path={PATHS.CHECKOUT} element={<CheckoutPage />} />
+
+                    {/* {check out} */}
+                    <Route
+                        path={PATHS.CHECKOUT_SUCCESS}
+                        element={<CheckoutSuccessPage />}
+                    />
 
                     {/* FAQ page */}
                     <Route path={PATHS.FAQ} element={<FAQPage />} />

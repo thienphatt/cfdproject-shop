@@ -9,20 +9,9 @@ import HeaderSearch from "./HeaderSearch";
 import HeaderCardDropDown from "../CartDropDown";
 
 const HeaderMiddle = () => {
-    const { isShowNavbar } = useSelector((state) => state.main);
     const dispath = useDispatch();
 
     const { headerMiddleProps } = useHeaderMiddle();
-
-    useEffect(() => {
-        if (isShowNavbar) {
-            $("body").addClass("mmenu-active");
-            $("mobile-menu-toggler").addClass("active");
-        } else {
-            $("body").removeClass("mmenu-active");
-            $("mobile-menu-toggler").removeClass("active");
-        }
-    }, [isShowNavbar]);
 
     const _toggleMenu = (e) => {
         e?.stopPropagation();

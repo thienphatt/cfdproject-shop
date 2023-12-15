@@ -115,3 +115,20 @@ export const handleGetProfile = createAsyncThunk(
         }
     }
 );
+
+export const handleUpdateProfile = createAsyncThunk(
+    "auth/updateProfile",
+    async (payload, thunkApi) => {
+        console.log("payload", payload);
+        try {
+            const res = await authService.updateProfile(payload);
+
+            message.success("Cập nhật thông tin thành công");
+
+            thunkApi.dispatch(handleGetProfile());
+        } catch (error) {
+            console.log("error", error);
+            message.success("Cập nhật thông tin thất bại");
+        }
+    }
+);

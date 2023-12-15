@@ -1,20 +1,22 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  isShowNavbar: false,
+    isShowNavbar: false,
 };
 
 export const mainSlice = createSlice({
-  name: "main",
-  initialState,
-  reducers: {
-    handleShowNavbar: (state) => {
-      state.isShowNavbar = true;
+    name: "main",
+    initialState,
+    reducers: {
+        handleShowNavbar: () => {
+            $("body").addClass("mmenu-active");
+            $("body").css("overflow-y", "hidden");
+        },
+        handleCloesNavbar: (state) => {
+            $("body").removeClass("mmenu-active");
+            $("body").css("overflow", "visible");
+        },
     },
-    handleCloesNavbar: (state) => {
-      state.isShowNavbar = false;
-    },
-  },
 });
 
 const { actions, reducer: mainReducer } = mainSlice;

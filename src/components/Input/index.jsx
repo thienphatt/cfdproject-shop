@@ -1,10 +1,19 @@
 import React, { forwardRef } from "react";
 
 const Input = (props, ref) => {
-    const { label, required, errors, renderInput, ...rest } = props;
+    const {
+        className,
+        label,
+        required,
+        errors,
+        renderInput,
+        name = "",
+        ...rest
+    } = props;
+
     return (
         <div className="form-group">
-            <label>
+            <label htmlFor={name}>
                 {label} {required && <span>*</span>}
             </label>
 
@@ -13,11 +22,12 @@ const Input = (props, ref) => {
                 <input
                     ref={ref}
                     type="text"
+                    name={name}
                     {...rest}
                     className={`form-control ${errors ? "input-error" : ""}`}
                 />
             )}
-            <p style={{ minHeight: 24 }} className="form-error">
+            <p style={{ minHeight: 14 }} className="form-error">
                 {errors ? errors.message : ""}
             </p>
         </div>

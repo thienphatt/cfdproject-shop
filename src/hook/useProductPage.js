@@ -4,78 +4,52 @@ import { useLocation, useSearchParams } from "react-router-dom";
 import { SORT_OPTIONS } from "../constants/general";
 import { productService } from "../services/productService";
 import useQuery from "./useQuery";
+import useDebounce from "./useDebounce";
 import useMutation from "./useMutation";
 
-const litmit = 6;
+const limit = 9;
 
 const useProductPage = () => {
+    // Initial Hooks
     const { search } = useLocation();
     const queryObject = queryString.parse(search);
 
     const [_, setSearchParams] = useSearchParams();
 
-    // get API
     // API Products
-    // const {
-    //   data: producstData,
-    //   loading: productsLoading,
-    //   error: productsError,
-    //   refetch: fetchData,
-    // } = useQuery((query) =>
-    //   productService.getProducts(query || `?limit=${litmit}`)
-    // );
     const {
-        data: producstData,
+        data: productsData,
         loading: productsLoading,
         error: productsError,
         execute: fetchProducts,
     } = useMutation((query) =>
-        productService.getProducts(query || `?limit=${litmit}`)
+        productService.getProducts(query || `?limit=${limit}`)
     );
 
-    const updateQueryString = (queryObject) => {
-        const newQueryString = queryString.stringify({
-            ...queryObject,
-            limit: litmit,
-        });
-        setSearchParams(new URLSearchParams(newQueryString));
-    };
-    const products = producstData?.products || [];
-    const pagination = producstData?.pagination || {};
+    const products = productsData?.products || [];
+    const pagination = productsData?.pagination || {};
 
-    //API category
     const {
         data: categoriesData,
         loading: categoriesLoading,
         error: categoriesError,
     } = useQuery(productService.getCategories);
-
     const categories = categoriesData?.products || [];
-    // Products props
-    const productListProps = {
-        products,
-        isLoading: productsLoading,
-        isError: productsError,
-    };
 
     useEffect(() => {
         fetchProducts?.(search);
     }, [search]);
 
-    //Pagination
-    const onPagiChange = (page) => {
-        updateQueryString({ ...queryObject, page: page });
+    //General Funtions
+    const updateQueryString = (queryObject) => {
+        const newQueryString = queryString.stringify({
+            ...queryObject,
+            limit,
+        });
+        setSearchParams(new URLSearchParams(newQueryString));
     };
 
-    const paginationProps = {
-        onPagiChange,
-        limit: Number(pagination?.limit || 0),
-        total: Number(pagination?.total || 0),
-        page: Number(pagination?.page || queryObject.page || 1),
-    };
-
-    //toolbox this.props.
-
+    //toolbox Props
     const activeSort = useMemo(() => {
         return (
             Object.values(SORT_OPTIONS).find(
@@ -104,7 +78,37 @@ const useProductPage = () => {
         onSortChange,
     };
 
-    //filter props
+    // Products Props
+    const productListLoading = useDebounce(productsLoading, 2000);
+    const productListProps = {
+        products,
+        isLoading: productListLoading,
+        isError: !!productsError,
+    };
+
+    //Pagination Props
+    const onPagiChange = (page) => {
+        updateQueryString({ ...queryObject, page: page });
+    };
+    const paginationProps = {
+        onPagiChange,
+        limit: Number(pagination.limit || 0),
+        total: Number(pagination.total || 0),
+        page: Number(pagination.page || queryObject.page || 1),
+    };
+
+    // Filter Props
+
+    const handleFilterPriceChange = (value) => {
+        if (value?.length === 2) {
+            updateQueryString({
+                ...queryObject,
+                minPrice: value[0],
+                maxPrice: value[1],
+                page: 1,
+            });
+        }
+    };
 
     const onCateFilterChange = (cateId, isChecked) => {
         let newCategory = Array.isArray(queryObject.category)
@@ -125,18 +129,6 @@ const useProductPage = () => {
             page: 1,
         });
     };
-
-    const handleFilterChange = (value) => {
-        if (value?.length === 2) {
-            updateQueryString({
-                ...queryObject,
-                minPrice: value[0],
-                maxPrice: value[1],
-                page: 1,
-            });
-        }
-    };
-
     const filterProps = {
         categories: categories || [],
         isLoading: categoriesLoading,
@@ -146,10 +138,10 @@ const useProductPage = () => {
             : [queryObject.category],
         currentPriceRange: [
             queryObject.minPrice || 0,
-            queryObject.maxPrice || 10000,
+            queryObject.maxPrice || 7000,
         ],
         onCateFilterChange,
-        handleFilterChange,
+        handleFilterPriceChange,
     };
 
     return {

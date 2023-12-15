@@ -24,4 +24,14 @@ export const authService = {
     removeWishList(payload = {}) {
         return axiosInstance.delete(`/customer/white-list`, { data: payload });
     },
+
+    getDataProvince() {
+        return axiosInstance.get(`/provinces`);
+    },
+    getDataDistrict(id = "") {
+        return axiosInstance.get(`/districts?province=${id}`);
+    },
+    getDataWard(id = "") {
+        return axiosInstance.get(`/wards?district=${id}`);
+    },
 };

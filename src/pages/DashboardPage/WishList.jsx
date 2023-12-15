@@ -2,7 +2,7 @@ import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { formatCurrency } from "../../utils/format";
 import { handleShowModal } from "../../store/reducers/authReducer";
-import { Modal } from "antd";
+import { Empty, Modal } from "antd";
 import { handleRemoveToWishList } from "../../store/reducers/wishListReducer";
 import { handleAddCart } from "../../store/reducers/cartReducer";
 import tokenMethod from "../../utils/token";
@@ -139,107 +139,22 @@ const WishList = () => {
                                 </tr>
                             );
                         })}
-                        {/* <tr>
-                            <td className="product-col">
-                                <div className="product">
-                                    <figure className="product-media">
-                                        <a href="#">
-                                            <img
-                                                src="assets/images/demos/demo-3/products/product-4.jpg"
-                                                alt="Product image"
-                                            />
-                                        </a>
-                                    </figure>
-                                    <h3 className="product-title">
-                                        <a href="#">Beige knitted</a>
-                                    </h3>
-                                </div>
-                            </td>
-                            <td className="price-col text-center">$84.00</td>
-                            <td className="stock-col text-center">
-                                <span className="in-stock">In stock</span>
-                            </td>
-                            <td className="action-col">
-                                <button className="btn btn-block btn-outline-primary-2">
-                                    <i className="icon-cart-plus" />
-                                    Add to Cart{" "}
-                                </button>
-                            </td>
-                            <td className="remove-col">
-                                <button className="btn-remove">
-                                    <i className="icon-close" />
-                                </button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td className="product-col">
-                                <div className="product">
-                                    <figure className="product-media">
-                                        <a href="#">
-                                            <img
-                                                src="assets/images/demos/demo-3/products/product-5.jpg"
-                                                alt="Product image"
-                                            />
-                                        </a>
-                                    </figure>
-                                    <h3 className="product-title">
-                                        <a href="#">Blue utility</a>
-                                    </h3>
-                                </div>
-                            </td>
-                            <td className="price-col text-center">$76.00</td>
-                            <td className="stock-col text-center">
-                                <span className="in-stock">In stock</span>
-                            </td>
-                            <td className="action-col">
-                                <button className="btn btn-block btn-outline-primary-2">
-                                    <i className="icon-cart-plus" />
-                                    Add to Cart{" "}
-                                </button>
-                            </td>
-                            <td className="remove-col">
-                                <button className="btn-remove">
-                                    <i className="icon-close" />
-                                </button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td className="product-col">
-                                <div className="product">
-                                    <figure className="product-media">
-                                        <a href="#">
-                                            <img
-                                                src="assets/images/demos/demo-3/products/product-6.jpg"
-                                                alt="Product image"
-                                            />
-                                        </a>
-                                    </figure>
-                                    <h3 className="product-title">
-                                        <a href="#">Orange saddle lock</a>
-                                    </h3>
-                                </div>
-                            </td>
-                            <td className="price-col text-center">$52.00</td>
-                            <td className="stock-col text-center">
-                                <span className="out-of-stock">
-                                    Out of stock
-                                </span>
-                            </td>
-                            <td className="action-col">
-                                <button className="btn btn-block btn-outline-primary-2 disabled">
-                                    Out of Stock
-                                </button>
-                            </td>
-                            <td className="remove-col">
-                                <button className="btn-remove">
-                                    <i className="icon-close" />
-                                </button>
-                            </td>
-                        </tr> */}
                     </tbody>
                 </table>
             ) : (
-                <p>There is no Product in Wish List</p>
+                <Empty
+                    description={
+                        <>
+                            <p>There is no product in whish list </p>
+                            <Link
+                                to={PATHS.PRODUCT}
+                                className="btn btn-outline-primary-2"
+                            >
+                                Go to Shop
+                            </Link>
+                        </>
+                    }
+                />
             )}
         </div>
     );

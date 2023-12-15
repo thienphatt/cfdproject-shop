@@ -1,23 +1,21 @@
+import { Skeleton } from "antd";
 import React, { useEffect, useRef } from "react";
 import CheckBox from "../../components/CheckBox";
 import useDebounce from "../../hook/useDebounce";
-import { Skeleton } from "antd";
 
 const ProductsFilter = ({
     categories,
     isLoading,
-    isError,
     activeCategory,
     onCateFilterChange,
-    handleFilterChange,
+    handleFilterPriceChange,
     currentPriceRange,
 }) => {
     const myPriceFilterTimeout = useRef();
     useEffect(() => {
         // Slider For category pages / filter price
+        var priceSlider = document.getElementById("price-slider");
         if (typeof noUiSlider === "object") {
-            var priceSlider = document.getElementById("price-slider");
-
             // Check if #price-slider elem is exists if not return
             // to prevent error logs
             if (priceSlider == null) return;
@@ -29,7 +27,7 @@ const ProductsFilter = ({
                 margin: 200,
                 range: {
                     min: 0,
-                    max: 5000,
+                    max: 10000,
                 },
                 tooltips: true,
                 format: wNumb({
@@ -40,14 +38,13 @@ const ProductsFilter = ({
 
             // Update Price Range
             priceSlider.noUiSlider.on("update", function (values, handle) {
-                console.log("values", values);
                 $("#filter-price-range").text(values.join(" - "));
 
                 if (myPriceFilterTimeout.current) {
                     clearTimeout(myPriceFilterTimeout.current);
                 }
                 myPriceFilterTimeout.current = setTimeout(() => {
-                    handleFilterChange(
+                    handleFilterPriceChange(
                         values.map((value) => value?.substring(1))
                     );
                 }, 500);
@@ -56,12 +53,6 @@ const ProductsFilter = ({
     }, []);
 
     const onFilterChange = (id, isChecked) => {
-        // if (isChecked) {
-        //   onCateFilterChange(id);
-        // } else {
-        //   onCateFilterChange("");
-        // }
-
         onCateFilterChange(id, isChecked);
     };
     return (

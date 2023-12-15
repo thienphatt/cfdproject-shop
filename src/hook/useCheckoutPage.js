@@ -1,13 +1,16 @@
 import { useDispatch, useSelector } from "react-redux";
 import { orderService } from "../services/orderServices";
 import { message } from "antd";
-import { updateCacheCart } from "../store/reducers/cartReducer";
+import { handleGetCart, updateCacheCart } from "../store/reducers/cartReducer";
+import { useNavigate } from "react-router-dom";
+import { PATHS } from "../constants/paths";
 
 function useCheckoutPage() {
     const dispatch = useDispatch();
+    const navigate = useNavigate();
+
     const { cartInfo } = useSelector((state) => state.cart);
 
-    console.log("cartInfo", cartInfo);
     const handleAddCoupon = async (value) => {
         try {
             const couponRes = await orderService.getOrderVoucher(value);
@@ -61,8 +64,80 @@ function useCheckoutPage() {
         handleAddCoupon,
         handleRemoveCoupon,
     };
+
+    // Check out Page
+
+    const handleCheckoutPage = async (data) => {
+        console.log("data", data);
+
+        const { cartInfo, formInfo } = data || {};
+
+        const {
+            phone,
+            email,
+            firstName,
+            note,
+            province,
+            district,
+            ward,
+            street,
+        } = formInfo || {};
+        const {
+            shipping,
+            variant,
+            subTotal,
+            total,
+            product,
+            quantity,
+            totalProduct,
+            discount,
+            discountCode = "",
+            paymentMethod,
+        } = cartInfo || {};
+
+        const payload = {
+            address: {
+                phone,
+                email,
+                fullName: firstName,
+                street: `${street}, ${ward?.label || ""}, ${
+                    district?.label || ""
+                }, ${province?.label || ""}`,
+            },
+            shipping,
+            variant,
+            subTotal,
+            total,
+            product: product?.map((item) => item.id) || [],
+            quantity,
+            totalProduct,
+            discount,
+            discountCode,
+            paymentMethod,
+            note,
+        };
+
+        try {
+            const res = await orderService.checkout(payload);
+            if (res.data?.data) {
+                dispatch(handleGetCart());
+                message.success("Checkout successfully");
+                navigate(PATHS.CHECKOUT_SUCCESS);
+            } else {
+                message.error("Checkout failed");
+            }
+        } catch (error) {
+            message.error("Checkout failed");
+        }
+    };
+
+    const formProps = {
+        handleCheckoutPage,
+    };
+
     return {
         couponProps,
+        formProps,
     };
 }
 

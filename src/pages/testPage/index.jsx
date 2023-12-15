@@ -1,8 +1,7 @@
-import React, { useState } from "react";
-import { useSelector } from "react-redux";
+import { Modal } from "antd";
+import React, { useState, useCallback } from "react";
 import styled from "styled-components";
-import { SHIPPING_OPTIONS } from "../../constants/general";
-import ProductCard from "../../components/ProductCard";
+import useTestPage from "./useTestPage";
 
 const TestContainer = styled.div`
     height: 500px;
@@ -13,57 +12,42 @@ const TestContainer = styled.div`
     gap: 20px;
 `;
 
-const FormRadio = styled.form`
-    label {
-        margin: 20px;
-    }
-`;
-
 const TestPage = () => {
-    const [valueRadio, setvalueRadio] = useState();
+    const products = useTestPage();
 
-    const { cartInfo } = useSelector((state) => state.cart);
-    const _onChange = (e) => {
-        setvalueRadio(e.target.value);
-    };
+    const [isShowModal, setIsShowModal] = useState(false);
+
+    const [modal, contextHolder] = Modal.useModal();
+
+    console.log("modal", modal);
+
+    const _onReview = useCallback((e, i) => {
+        setIsShowModal(true);
+        // Modal.info();
+
+        // Modal.caller();
+    });
+
+    const _onCancel = useCallback(() => {
+        setIsShowModal(false);
+    });
+
+    const _onOk = useCallback(() => {
+        setIsShowModal(false);
+    });
 
     return (
-        <>
-            <TestContainer>
-                <FormRadio>
-                    {SHIPPING_OPTIONS.map((option, i) => {
-                        const { value, label, price } = option;
-                        return (
-                            <div key={i} className="form-group">
-                                <input
-                                    type="radio"
-                                    checked={value === valueRadio}
-                                    value={value}
-                                    id={value}
-                                    onChange={(e) => _onChange(e)}
-                                />
-                                <label htmlFor={value}>{label}</label>
-                                <span>${price}</span>
-                            </div>
-                        );
-                    })}
-                </FormRadio>
-            </TestContainer>
-
-            <span
-                style={{
-                    backgroundColor: "black",
-                    width: "100%",
-                    height: "1px",
-                    display: "block",
-                }}
-            ></span>
-            <div style={{ display: "flex", gap: "20px", marginTop: "100px" }}>
-                {cartInfo?.product?.map((product) => {
-                    return <ProductCard key={product.id} product={product} />;
-                })}
-            </div>
-        </>
+        <TestContainer>
+            {products?.map((item, i) => (
+                <li key={i} style={{ display: "flex", gap: 20 }}>
+                    <p>{item}</p>
+                    <button onClick={(e) => _onReview(e, i)}>
+                        Review + {item}
+                    </button>
+                </li>
+            ))}
+            <Modal open={isShowModal} onCancel={_onCancel} onOk={_onOk}></Modal>
+        </TestContainer>
     );
 };
 

@@ -1,8 +1,7 @@
 import { Empty, Skeleton } from "antd";
 import React from "react";
-import ProductCard from "../../components/ProductCard";
-import useDebounce from "../../hook/useDebounce";
 import styled from "styled-components";
+import ProductCard from "../../components/ProductCard";
 
 const ProductSkeletonStyle = styled.div`
     display: flex;
@@ -12,47 +11,32 @@ const ProductSkeletonStyle = styled.div`
 `;
 
 const ProductList = ({ products, isLoading, isError }) => {
-    const loading = useDebounce(isLoading, 20000);
-    console.log("loadding", loading);
-    console.log("isLoading", isLoading);
-
-    if ((!loading && products?.length < 1) || isError)
+    if ((!!!isLoading && products?.length < 1) || isError) {
         return (
             <Empty
                 description="There is no products"
                 style={{ margin: "50px auto" }}
             />
         );
+    }
 
-    // if (loading) return;
-
-    // Array(9)
-    //   .fill("")
-    //   .map((_, index) => (
-    //     <div key={index} className="col-6 col-md-4 col-lg-4">
-    //       <Skeleton active />
-    //     </div>
-    //   ));
-
-    if (loading) {
+    if (isLoading) {
         return (
             <div className="products mb-3">
                 <div className="row justify-content-center">
-                    {Array(6)
-                        .fill("")
-                        .map((_, i) => (
-                            <ProductSkeletonStyle
-                                key={i}
-                                className="col-6 col-md-4 col-lg-4"
-                            >
-                                <Skeleton.Image
-                                    active
-                                    style={{ width: "100%", height: 275 }}
-                                />
-                                <Skeleton.Input />
-                                <Skeleton.Input block />
-                            </ProductSkeletonStyle>
-                        ))}
+                    {new Array(9).fill("").map((_, i) => (
+                        <ProductSkeletonStyle
+                            key={i}
+                            className="col-6 col-md-4 col-lg-4"
+                        >
+                            <Skeleton.Image
+                                active
+                                style={{ width: "100%", height: 275 }}
+                            />
+                            <Skeleton.Input />
+                            <Skeleton.Input block />
+                        </ProductSkeletonStyle>
+                    ))}
                 </div>
             </div>
         );

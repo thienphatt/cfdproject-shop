@@ -1,9 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 
 function useDebounce(changedValue, delayTime) {
-    // State to store the debounced value
     const [debouncedValue, setDebouncedValue] = useState(changedValue);
-
     const timeoutRef = useRef(null);
 
     useEffect(() => {
@@ -11,7 +9,7 @@ function useDebounce(changedValue, delayTime) {
             clearTimeout(timeoutRef.current);
         }
 
-        if (!changedValue != true) {
+        if (changedValue != true) {
             timeoutRef.current = setTimeout(() => {
                 setDebouncedValue(changedValue);
             }, delayTime);
@@ -19,8 +17,9 @@ function useDebounce(changedValue, delayTime) {
             setDebouncedValue(changedValue);
         }
 
-        // Clear the timeout if changedValue changes before delayTime
-        return () => clearTimeout(timeoutRef.current);
+        return () => {
+            clearTimeout(timeoutRef.current);
+        };
     }, [changedValue, delayTime, timeoutRef]);
 
     return debouncedValue;

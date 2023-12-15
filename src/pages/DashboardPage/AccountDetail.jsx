@@ -1,6 +1,129 @@
-import React from "react";
+import { Select } from "antd";
+import React, { useEffect } from "react";
+import { Controller, useForm } from "react-hook-form";
+import { useDispatch, useSelector } from "react-redux";
+import styled from "styled-components";
+import Input from "../../components/Input";
+import { MESSAGE, REGREX } from "../../constants/validate";
+import useAddress from "../../hook/useAddress";
+import { handleUpdateProfile } from "../../store/reducers/authReducer";
+import { formatDate, removeAccents } from "../../utils/format";
+
+const WarpperForm = styled.form`
+    .form-group {
+        margin: 0;
+    }
+    .customSelect {
+        display: flex;
+        height: 40px;
+        margin-bottom: 13px;
+        div {
+            color: #777;
+            background-color: #f9f9f9 !important;
+            border: 1px solid #ebebeb;
+            border-radius: unset;
+            &:hover {
+                border-color: #fcb941 !important;
+            }
+        }
+    }
+`;
 
 const AccountDetail = () => {
+    const dispatch = useDispatch();
+
+    const { profile } = useSelector((state) => state.auth);
+    const {
+        firstName,
+        email,
+        phone,
+        birthday,
+        province,
+        district,
+        ward,
+        street,
+    } = profile || {};
+
+    const {
+        provinceId,
+        provinces,
+        districtId,
+        districts,
+        wardId,
+        wards,
+        handleProvinceChange,
+        handleDistrictChange,
+        handleWardChange,
+    } = useAddress();
+
+    const {
+        register,
+        reset,
+        handleSubmit,
+        getValues,
+        control,
+        formState: { errors },
+    } = useForm({
+        defaultValues: {
+            firstName,
+            email,
+            phone,
+            birthday,
+            province,
+            district,
+            ward,
+            street,
+        },
+    });
+    useEffect(() => {
+        if (!profile) return;
+        reset?.({
+            firstName,
+            phone,
+            email,
+            ward,
+            province,
+            district,
+            street,
+            birthday: formatDate(birthday, "YYYY-MM-DD"),
+        });
+        handleProvinceChange?.(province);
+        handleDistrictChange?.(district);
+        handleWardChange?.(ward);
+    }, [profile]);
+
+    const _onChangeProvince = (changeId) => {
+        handleProvinceChange(changeId);
+        reset({
+            ...getValues(),
+            province: changeId,
+            district: undefined,
+            ward: undefined,
+        });
+    };
+    const _onChangeDistrict = (changeId) => {
+        handleDistrictChange(changeId);
+        reset({
+            ...getValues(),
+            district: changeId,
+            ward: undefined,
+        });
+    };
+    const _onChangeWard = (changeId) => {
+        handleWardChange(changeId);
+        reset({
+            ...getValues(),
+            ward: changeId,
+        });
+    };
+
+    const _onSubmit = (value) => {
+        const payload = { ...value, email, lastName: "" };
+        console.log("vlue", value);
+        dispatch(handleUpdateProfile(payload));
+        reset();
+    };
+
     return (
         <div
             className="tab-pane fade show active"
@@ -8,46 +131,102 @@ const AccountDetail = () => {
             role="tabpanel"
             aria-labelledby="tab-account-link"
         >
-            <form action="#" className="account-form">
+            <WarpperForm
+                onSubmit={handleSubmit(_onSubmit)}
+                action="#"
+                className="account-form"
+            >
                 <div className="row">
                     <div className="col-sm-6">
-                        <label>Full Name *</label>
-                        <input
-                            type="text"
-                            className="form-control"
-                            defaultValue="Tran"
+                        <Input
+                            label="Full Name"
                             required
+                            errors={errors?.firstName}
+                            {...register("firstName", {
+                                required: MESSAGE.required,
+                            })}
                         />
                     </div>
                     <div className="col-sm-6">
-                        <label>Email address *</label>
-                        <input
-                            type="email"
-                            className="form-control"
-                            defaultValue="trannghia@gmail.com"
-                            disabled
+                        <Input
+                            label="Email address"
                             required
+                            disabled
+                            defaultValue={email}
+                            errors={errors?.email}
+                            {...register("email")}
                         />
                     </div>
                 </div>
                 <div className="row">
                     <div className="col-sm-6">
-                        <label>Phone number *</label>
-                        <input
-                            type="text"
-                            className="form-control input-error"
+                        <Input
+                            label="Phone number"
                             required
+                            errors={errors?.phone}
+                            {...register("phone", {
+                                required: MESSAGE.required,
+                                pattern: {
+                                    value: REGREX.phone,
+                                    message: MESSAGE.phone,
+                                },
+                            })}
                         />
-                        <p className="form-error">Please fill in this field</p>
                     </div>
                     <div className="col-sm-6">
-                        <label>Ngày sinh *</label>
-                        <input type="date" className="form-control" required />
+                        <Input
+                            label="Birthday"
+                            required
+                            type="date"
+                            errors={errors?.birthday}
+                            defaultValue={formatDate(birthday, "YYYY-MM-DD")}
+                            {...register("birthday", {
+                                required: MESSAGE.required,
+                            })}
+                        />
                     </div>
                 </div>
                 <div className="row">
                     <div className="col-sm-4">
                         <label>Province/City *</label>
+                        <Controller
+                            name="province"
+                            control={control}
+                            rules={{ required: MESSAGE.required }}
+                            render={({ formState: { errors } }) => {
+                                return (
+                                    <>
+                                        <Select
+                                            errors={errors?.province}
+                                            className="customSelect"
+                                            showSearch
+                                            value={provinceId}
+                                            options={provinces}
+                                            onChange={_onChangeProvince}
+                                            optionFilterProp="children"
+                                            filterOption={(input, option) => {
+                                                return removeAccents(
+                                                    option?.label ?? ""
+                                                )
+                                                    .toLowerCase()
+                                                    .includes(
+                                                        removeAccents(
+                                                            input.toLowerCase()
+                                                        )
+                                                    );
+                                            }}
+                                        />
+                                        <p
+                                            className="form-error"
+                                            style={{ minHeight: 24 }}
+                                        >
+                                            {errors?.province?.message || ""}
+                                        </p>
+                                    </>
+                                );
+                            }}
+                        />
+                        {/* <label>Province/City *</label>
                         <div className="select-custom">
                             <select
                                 className="form-control form-select"
@@ -56,49 +235,114 @@ const AccountDetail = () => {
                             >
                                 <option selected />
                             </select>
-                        </div>
+                        </div> */}
                     </div>
                     <div className="col-sm-4">
                         <label>District/Town *</label>
-                        <div className="select-custom">
-                            <select
-                                className="form-control form-select"
-                                id="district"
-                            >
-                                <option selected />
-                            </select>
-                        </div>
+                        <Controller
+                            name="district"
+                            control={control}
+                            rules={{ required: MESSAGE.required }}
+                            render={({ formState: { errors } }) => {
+                                return (
+                                    <>
+                                        <Select
+                                            className="customSelect"
+                                            showSearch
+                                            value={districtId}
+                                            options={districts}
+                                            onChange={_onChangeDistrict}
+                                            optionFilterProp="children"
+                                            filterOption={(input, option) => {
+                                                return removeAccents(
+                                                    option?.label ?? ""
+                                                )
+                                                    .toLowerCase()
+                                                    .includes(
+                                                        removeAccents(
+                                                            input.toLowerCase()
+                                                        )
+                                                    );
+                                            }}
+                                        />
+                                        <p
+                                            className="form-error"
+                                            style={{ minHeight: 24 }}
+                                        >
+                                            {errors?.district?.message || ""}
+                                        </p>
+                                    </>
+                                );
+                            }}
+                        />
                     </div>
                     <div className="col-sm-4">
                         <label>Ward *</label>
-                        <div className="select-custom">
-                            <select
-                                className="form-control form-select"
-                                id="ward"
-                            >
-                                <option selected />
-                            </select>
-                        </div>
+                        <Controller
+                            name="ward"
+                            control={control}
+                            rules={{ required: MESSAGE.required }}
+                            render={({ formState: { errors } }) => {
+                                return (
+                                    <>
+                                        <Select
+                                            className="customSelect"
+                                            showSearch
+                                            value={wardId}
+                                            options={wards}
+                                            onChange={_onChangeWard}
+                                            optionFilterProp="children"
+                                            filterOption={(input, option) => {
+                                                return removeAccents(
+                                                    option?.label ?? ""
+                                                )
+                                                    .toLowerCase()
+                                                    .includes(
+                                                        removeAccents(
+                                                            input.toLowerCase()
+                                                        )
+                                                    );
+                                            }}
+                                        />
+                                        <p
+                                            className="form-error"
+                                            style={{ minHeight: 24 }}
+                                        >
+                                            {errors?.ward?.message || ""}
+                                        </p>
+                                    </>
+                                );
+                            }}
+                        />
                     </div>
                 </div>
-                <label>Street address *</label>
+                <Input
+                    label="Street address"
+                    required
+                    errors={errors?.street}
+                    {...register("street", {
+                        required: MESSAGE.required,
+                    })}
+                />
+
+                {/* <label>Street address *</label>
                 <input
                     type="email"
                     className="form-control"
                     defaultValue="30 Ba Thang Hai St."
                     required
-                />
-                <label>Current password (leave blank to leave unchanged)</label>
+                /> */}
+                {/* <label>Current password (leave blank to leave unchanged)</label>
                 <input type="password" className="form-control" />
                 <label>New password (leave blank to leave unchanged)</label>
                 <input type="password" className="form-control" />
                 <label>Confirm new password</label>
-                <input type="password" className="form-control mb-2" />
+                <input type="password" className="form-control mb-2" /> */}
                 <button type="submit" className="btn btn-outline-primary-2">
                     <span>SAVE CHANGES</span>
                     <i className="icon-long-arrow-right" />
                 </button>
-            </form>
+            </WarpperForm>
         </div>
     );
 };

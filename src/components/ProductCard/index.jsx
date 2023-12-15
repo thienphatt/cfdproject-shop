@@ -24,15 +24,15 @@ const ImageWrapper = styled.div`
 const ProductCard = ({ product }) => {
     const dispatch = useDispatch();
 
-    const { id, slug, title, price, rating, images, discount, color } =
+    const { id, slug, name, price, rating, images, discount, color } =
         product || {};
 
-    const { data: productDetailReviews } = useQuery(
-        () => id && productService.getProductReview(id),
-        [id]
-    );
+    // const { data: productDetailReviews } = useQuery(
+    //     () => id && productService.getProductReview(id),
+    //     [id]
+    // );
 
-    const review = productDetailReviews?.length;
+    // const review = productDetailReviews?.length;
 
     const productPath = PATHS.PRODUCT + `/${slug}`;
 
@@ -120,7 +120,7 @@ const ProductCard = ({ product }) => {
             </figure>
             <div className="product-body">
                 <h3 className="product-title">
-                    <Link to={productPath}>{title || ""}</Link>
+                    <Link to={productPath}>{name || ""}</Link>
                 </h3>
                 <div className="product-price">
                     {discount ? (
@@ -146,7 +146,7 @@ const ProductCard = ({ product }) => {
                             }}
                         />
                     </div>
-                    <span className="ratings-text">( {review} Reviews )</span>
+                    {/* <span className="ratings-text">( {review} Reviews )</span> */}
                 </div>
             </div>
         </div>

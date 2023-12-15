@@ -7,10 +7,13 @@ import { handleLogout } from "../../store/reducers/authReducer";
 import { clearCar } from "../../store/reducers/cartReducer";
 import { message } from "antd";
 import Breadcrumb from "../../components/Breadcrumb";
+import useDashboardPage from "./useDashboardPage";
 
 const DashboardPage = () => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
+
+    const { accountProps } = useDashboardPage();
 
     const _onSignOut = (e) => {
         e?.preventDefault();
@@ -93,7 +96,7 @@ const DashboardPage = () => {
                             </aside>
                             <div className="col-md-8 col-lg-9">
                                 <div className="tab-content">
-                                    <Outlet />
+                                    <Outlet {...accountProps} />
                                 </div>
                             </div>
                         </div>

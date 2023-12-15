@@ -8,6 +8,8 @@ const Review = ({ reviews }) => {
             {reviews?.map((review) => {
                 const { id, updateAt, description, order, rate, title } =
                     review;
+
+                console.log("updateAt", updateAt);
                 return (
                     <div key={id} className="review">
                         <div className="row no-gutters">

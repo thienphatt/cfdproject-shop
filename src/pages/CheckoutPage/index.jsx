@@ -7,7 +7,7 @@ import CheckoutDiscount from "./CheckoutDiscount";
 import useCheckoutPage from "../../hook/useCheckoutPage";
 
 const CheckoutPage = () => {
-    const { couponProps } = useCheckoutPage();
+    const { couponProps, formProps } = useCheckoutPage();
     return (
         <main className="main">
             <div
@@ -35,7 +35,7 @@ const CheckoutPage = () => {
                 <div className="checkout">
                     <div className="container">
                         <CheckoutDiscount {...couponProps} />
-                        <CheckoutForm />
+                        <CheckoutForm {...formProps} />
                     </div>
                 </div>
             </div>
