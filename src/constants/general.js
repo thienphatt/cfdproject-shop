@@ -74,3 +74,9 @@ export const PAYMENT_METHOD = {
     cash: "cash",
     bank: "bank",
 };
+
+export const FILTER_PRODUCT_PAGE = {
+    limit: 9,
+    max_price: 7000,
+    min_price: 0,
+};

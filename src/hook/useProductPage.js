@@ -1,5 +1,5 @@
 import queryString from "query-string";
-import { useEffect, useMemo } from "react";
+import { useEffect, useMemo, useRef } from "react";
 import { useLocation, useSearchParams } from "react-router-dom";
 import { SORT_OPTIONS } from "../constants/general";
 import { productService } from "../services/productService";
@@ -12,7 +12,9 @@ const limit = 9;
 const useProductPage = () => {
     // Initial Hooks
     const { search } = useLocation();
+
     const queryObject = queryString.parse(search);
+    console.log("queryObject", queryObject);
 
     const [_, setSearchParams] = useSearchParams();
 
@@ -87,8 +89,8 @@ const useProductPage = () => {
     };
 
     //Pagination Props
-    const onPagiChange = (page) => {
-        updateQueryString({ ...queryObject, page: page });
+    const onPagiChange = (pageNumber) => {
+        updateQueryString({ ...queryObject, page: pageNumber });
     };
     const paginationProps = {
         onPagiChange,
@@ -98,17 +100,6 @@ const useProductPage = () => {
     };
 
     // Filter Props
-
-    const handleFilterPriceChange = (value) => {
-        if (value?.length === 2) {
-            updateQueryString({
-                ...queryObject,
-                minPrice: value[0],
-                maxPrice: value[1],
-                page: 1,
-            });
-        }
-    };
 
     const onCateFilterChange = (cateId, isChecked) => {
         let newCategory = Array.isArray(queryObject.category)
@@ -126,6 +117,16 @@ const useProductPage = () => {
         updateQueryString({
             ...queryObject,
             category: newCategory,
+            page: 1,
+        });
+    };
+
+    const handleFilterPriceChange = (value) => {
+        const vlaueChage = value;
+        updateQueryString({
+            ...queryObject,
+            minPrice: vlaueChage[0],
+            maxPrice: vlaueChage[1],
             page: 1,
         });
     };

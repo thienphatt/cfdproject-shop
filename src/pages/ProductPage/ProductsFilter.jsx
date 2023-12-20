@@ -2,6 +2,7 @@ import { Skeleton } from "antd";
 import React, { useEffect, useRef } from "react";
 import CheckBox from "../../components/CheckBox";
 import useDebounce from "../../hook/useDebounce";
+import PriceFilter from "./PriceFilter";
 
 const ProductsFilter = ({
     categories,
@@ -10,9 +11,18 @@ const ProductsFilter = ({
     onCateFilterChange,
     handleFilterPriceChange,
     currentPriceRange,
+    _checkValue,
 }) => {
     const myPriceFilterTimeout = useRef();
     useEffect(() => {
+        var slider = document.getElementById("price-slider");
+        var priceLabel = document.getElementById("price-value");
+
+        // Cập nhật giá tiền khi thanh trượt thay đổi
+        slider.addEventListener("input", function () {
+            priceLabel.textContent = slider.value;
+        });
+
         // Slider For category pages / filter price
         var priceSlider = document.getElementById("price-slider");
         if (typeof noUiSlider === "object") {
@@ -39,6 +49,8 @@ const ProductsFilter = ({
             // Update Price Range
             priceSlider.noUiSlider.on("update", function (values, handle) {
                 $("#filter-price-range").text(values.join(" - "));
+
+                console.log("handle", handle);
 
                 if (myPriceFilterTimeout.current) {
                     clearTimeout(myPriceFilterTimeout.current);
@@ -138,14 +150,13 @@ const ProductsFilter = ({
                         <div className="widget-body">
                             <div className="filter-price">
                                 <div className="filter-price-text">
-                                    {" "}
-                                    Price Range:{" "}
                                     <span id="filter-price-range" />
                                 </div>
                                 <div id="price-slider" />
                             </div>
                         </div>
                     </div>
+                    <PriceFilter />
                 </div>
             </div>
         </aside>

@@ -119,7 +119,7 @@ const ProductCard = ({ product }) => {
                 </div>
             </figure>
             <div className="product-body">
-                <h3 className="product-title">
+                <h3 className="product-title" style={{ minHeight: 40 }}>
                     <Link to={productPath}>{name || ""}</Link>
                 </h3>
                 <div className="product-price">

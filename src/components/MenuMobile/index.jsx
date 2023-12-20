@@ -1,8 +1,12 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
-import { NavLink } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import { PATHS } from "../../constants/paths";
+import useQuery from "../../hook/useQuery";
+import { productService } from "../../services/productService";
 import { MenuStyle } from "../styled-components";
+import { handleCloesNavbar } from "../../store/reducers/mainReducer";
+import { FILTER_PRODUCT_PAGE } from "../../constants/general";
 
 const menuTab = {
     menu: "menu",
@@ -12,6 +16,11 @@ const menuTab = {
 const MenuMobile = () => {
     const [tabMenu, setTabMenu] = useState(menuTab.menu);
     const dispatch = useDispatch();
+    const { data: cateloriesData } = useQuery(() =>
+        productService.getCategories()
+    );
+    const catelories = cateloriesData?.products || [];
+
     return (
         <div className="mobile-menu-container">
             <div className="mobile-menu-wrapper">
@@ -104,7 +113,25 @@ const MenuMobile = () => {
                         <div className="tab-pane fade show active">
                             <nav className="mobile-cats-nav">
                                 <ul className="mobile-cats-menu">
-                                    <li>
+                                    {catelories?.map((cate, index) => {
+                                        const { id, name } = cate || {};
+                                        return (
+                                            <li key={index}>
+                                                <Link
+                                                    // className="mobile-cats-lead"
+                                                    to={`${PATHS.PRODUCT}?category=${id}&limit=${FILTER_PRODUCT_PAGE.limit}&page=1`}
+                                                    onClick={() =>
+                                                        dispatch(
+                                                            handleCloesNavbar()
+                                                        )
+                                                    }
+                                                >
+                                                    {name}
+                                                </Link>
+                                            </li>
+                                        );
+                                    })}
+                                    {/* <li>
                                         <a
                                             className="mobile-cats-lead"
                                             href="#"
@@ -125,7 +152,7 @@ const MenuMobile = () => {
                                     </li>
                                     <li>
                                         <a href="#">Accessories</a>
-                                    </li>
+                                    </li> */}
                                 </ul>
                                 {/* End .mobile-cats-menu */}
                             </nav>

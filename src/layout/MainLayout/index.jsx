@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { Outlet, useLocation } from "react-router-dom";
 import BackToTop from "../../components/BackToTop";
 import Footer from "../../components/Footer";
@@ -11,8 +11,7 @@ import { handleCloesNavbar } from "../../store/reducers/mainReducer";
 
 const MainLayout = () => {
     const { pathname } = useLocation();
-    const { isShowNavbar } = useSelector((state) => state.main);
-    console.log("showNavbar", isShowNavbar);
+
     const dispath = useDispatch();
     useEffect(() => {
         // Khi đổi PATH sẽ tự động scroll Top
