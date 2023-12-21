@@ -5,7 +5,7 @@ const PriceFilter = () => {
 
     return (
         <div>
-            <label for="price-slider">Chọn giá tiền:</label>
+            <label htmlFor="price-slider">Chọn giá tiền:</label>
             <input
                 type="range"
                 id="price-slider"

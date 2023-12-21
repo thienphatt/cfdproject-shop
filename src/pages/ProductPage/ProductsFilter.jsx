@@ -50,8 +50,6 @@ const ProductsFilter = ({
             priceSlider.noUiSlider.on("update", function (values, handle) {
                 $("#filter-price-range").text(values.join(" - "));
 
-                console.log("handle", handle);
-
                 if (myPriceFilterTimeout.current) {
                     clearTimeout(myPriceFilterTimeout.current);
                 }

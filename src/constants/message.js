@@ -10,3 +10,10 @@ export const CONTACT_MESSAGE = {
     submitSuccess: "Thank you !!! We will be contact your soon!",
     submitFail: "Something worng please try latter",
 };
+
+export const DESCRIPTION_ANT = {
+    empty: {
+        product: "There is no products",
+        blog: "There is no posts",
+    },
+};

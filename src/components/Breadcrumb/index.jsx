@@ -1,8 +1,12 @@
 import React from "react";
 
-const Breadcrumb = ({ className, children }) => {
+const Breadcrumb = ({ className, children, ...rest }) => {
     return (
-        <nav aria-label="breadcrumb" className={`breadcrumb-nav ${className}`}>
+        <nav
+            aria-label="breadcrumb"
+            className={`breadcrumb-nav ${className}`}
+            {...rest}
+        >
             <div className="container">
                 <ol className="breadcrumb">{children}</ol>
             </div>

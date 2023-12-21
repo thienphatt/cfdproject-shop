@@ -2,6 +2,7 @@ import { Empty, Skeleton } from "antd";
 import React from "react";
 import styled from "styled-components";
 import ProductCard from "../../components/ProductCard";
+import { DESCRIPTION_ANT } from "../../constants/message";
 
 const ProductSkeletonStyle = styled.div`
     display: flex;
@@ -14,7 +15,7 @@ const ProductList = ({ products, isLoading, isError }) => {
     if ((!!!isLoading && products?.length < 1) || isError) {
         return (
             <Empty
-                description="There is no products"
+                description={DESCRIPTION_ANT.empty.product}
                 style={{ margin: "50px auto" }}
             />
         );
