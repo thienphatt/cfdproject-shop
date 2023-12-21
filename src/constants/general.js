@@ -80,3 +80,7 @@ export const FILTER_PRODUCT_PAGE = {
     max_price: 7000,
     min_price: 0,
 };
+
+export const FILTER_BLOG_PAGE = {
+    limit: 6,
+};

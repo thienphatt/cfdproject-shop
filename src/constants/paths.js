@@ -25,5 +25,6 @@ export const PATHS = {
     },
     ABOUT: "/about",
     BLOG: "/blog",
+    BLOG_DETAIL: "blog/:slug",
     CONTACT: "/contact",
 };

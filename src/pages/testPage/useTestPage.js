@@ -1,6 +1,13 @@
 const useTestPage = () => {
-    const products = ["Macbook", "Iphone", "AppleWatch"];
-    return products.reverse();
+    const handleSearch = (value) => {
+        if (value) {
+            // Call API
+        }
+    };
+
+    return {
+        handleSearch,
+    };
 };
 
 export default useTestPage;

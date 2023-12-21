@@ -13,40 +13,23 @@ const TestContainer = styled.div`
 `;
 
 const TestPage = () => {
-    const products = useTestPage();
+    const { handleSearch } = useTestPage();
 
-    const [isShowModal, setIsShowModal] = useState(false);
+    let timeoutId;
 
-    const [modal, contextHolder] = Modal.useModal();
+    const _onSearch = (value) => {
+        if (timeoutId) {
+            clearTimeout(timeoutId);
+        }
 
-    console.log("modal", modal);
-
-    const _onReview = useCallback((e, i) => {
-        setIsShowModal(true);
-        // Modal.info();
-
-        // Modal.caller();
-    });
-
-    const _onCancel = useCallback(() => {
-        setIsShowModal(false);
-    });
-
-    const _onOk = useCallback(() => {
-        setIsShowModal(false);
-    });
+        timeoutId = setTimeout(() => {
+            handleSearch(value);
+        }, 1000);
+    };
 
     return (
         <TestContainer>
-            {products?.map((item, i) => (
-                <li key={i} style={{ display: "flex", gap: 20 }}>
-                    <p>{item}</p>
-                    <button onClick={(e) => _onReview(e, i)}>
-                        Review + {item}
-                    </button>
-                </li>
-            ))}
-            <Modal open={isShowModal} onCancel={_onCancel} onOk={_onOk}></Modal>
+            <input type="text" onChange={(e) => _onSearch(e.target.value)} />
         </TestContainer>
     );
 };

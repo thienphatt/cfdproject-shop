@@ -28,6 +28,7 @@ import Address from "./pages/DashboardPage/Address";
 import WishList from "./pages/DashboardPage/WishList";
 import PrivateRoute from "./components/PrivateRoute";
 import CheckoutSuccessPage from "./pages/CheckoutSuccessPage";
+import BlogSinglePage from "./pages/BlogSinglePage";
 
 function App() {
     const dispatch = useDispatch();
@@ -60,6 +61,12 @@ function App() {
 
                     {/* Blog Page */}
                     <Route path={PATHS.BLOG} element={<BlogPage />}></Route>
+
+                    {/* Blog Detail Page */}
+                    <Route
+                        path={PATHS.BLOG_DETAIL}
+                        element={<BlogSinglePage />}
+                    ></Route>
 
                     {/* Contact Page */}
                     <Route path={PATHS.CONTACT} element={<ContactPage />} />

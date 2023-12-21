@@ -70,12 +70,15 @@ const Pagination = ({ page, limit = 0, total = 0, onPagiChange }) => {
                     </span>
                     Prev
                 </PagiItem>
-                <PagiItem isDisabled={pageList[0] === 1} onClick={onFirst}>
-                    <span aria-hidden="true">
-                        <i className="icon-long-arrow-left" />
-                    </span>
-                    First
-                </PagiItem>
+                {totalPage > 3 && (
+                    <PagiItem isDisabled={pageList[0] === 1} onClick={onFirst}>
+                        <span>
+                            <i className="icon-long-arrow-left" />
+                        </span>
+                        First
+                    </PagiItem>
+                )}
+
                 {pageList?.length > 0 &&
                     pageList.map((pageNum) => (
                         <PagiItem
@@ -89,15 +92,18 @@ const Pagination = ({ page, limit = 0, total = 0, onPagiChange }) => {
                         </PagiItem>
                     ))}
                 <PagiItem className="page-item-total">of {totalPage}</PagiItem>
-                <PagiItem
-                    isDisabled={pageList[pageList.length - 1] === totalPage}
-                    onClick={onLast}
-                >
-                    Last
-                    <span aria-hidden="true">
-                        <i className="icon-long-arrow-right" />
-                    </span>
-                </PagiItem>
+
+                {totalPage > 3 && (
+                    <PagiItem
+                        isDisabled={pageList[pageList.length - 1] === totalPage}
+                        onClick={onLast}
+                    >
+                        Last
+                        <span aria-hidden="true">
+                            <i className="icon-long-arrow-right" />
+                        </span>
+                    </PagiItem>
+                )}
                 <PagiItem
                     isDisabled={pageList[pageList.length - 1] === page}
                     onClick={onNext}
