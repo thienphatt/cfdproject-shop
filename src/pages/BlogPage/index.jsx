@@ -4,7 +4,7 @@ import Breadcrumb from "../../components/Breadcrumb";
 import Pagination from "../ProductPage/Pagination";
 import useBlogPage from "./useBlogPage";
 import BlogList from "./BlogList";
-import AsideBlogPage from "./asideBlogPage";
+import AsideBlogsPage from "./AsideBlogsPage";
 
 const BlogPage = () => {
     const { blogListProps, pagiProps, asideBlogProps } = useBlogPage();
@@ -78,7 +78,7 @@ const BlogPage = () => {
                                 </ul>
                             </nav> */}
                         </div>
-                        <AsideBlogPage {...asideBlogProps} />
+                        <AsideBlogsPage {...asideBlogProps} />
                     </div>
                 </div>
             </div>

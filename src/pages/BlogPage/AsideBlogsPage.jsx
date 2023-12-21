@@ -1,7 +1,6 @@
 import React from "react";
-import useDebounce from "../../hook/useDebounce";
 
-const AsideBlogPage = ({
+const AsideBlogsPage = ({
     cateBlogs,
     blogLoading,
     tags,
@@ -185,4 +184,4 @@ const AsideBlogPage = ({
     );
 };
 
-export default AsideBlogPage;
+export default AsideBlogsPage;
