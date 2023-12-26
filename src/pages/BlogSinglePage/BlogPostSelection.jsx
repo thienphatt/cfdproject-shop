@@ -137,8 +137,6 @@ const BlogPostSection = ({ blogDetailData, blogsRelated }) => {
                                   }'
                     >
                         {blogsRelated?.map((blog, index) => {
-                            console.log("blog", blog);
-
                             const { author, updatedAt, image, name, slug } =
                                 blog || {};
 

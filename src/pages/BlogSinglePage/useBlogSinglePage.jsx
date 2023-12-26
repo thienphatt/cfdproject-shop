@@ -2,13 +2,22 @@ import { useParams } from "react-router-dom";
 import useQuery from "../../hook/useQuery";
 import { blogService } from "../../services/blogService";
 import { useEffect } from "react";
+import useMutation from "../../hook/useMutation";
 
 export const useBLogSinglePage = () => {
     const { slug } = useParams();
 
-    const { data: blogDetailData } = useQuery(() => {
+    const {
+        data: blogDetailData,
+        loading: blogLoading,
+        execute,
+    } = useMutation(() => {
         return blogService.getBlogDetail(slug);
     });
+
+    useEffect(() => {
+        execute(slug);
+    }, [slug]);
 
     const cateBlogDetailId = blogDetailData?.category?.id || "";
 

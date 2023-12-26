@@ -1,4 +1,4 @@
-import { useLocation, useSearchParams } from "react-router-dom";
+import { useLocation, useParams, useSearchParams } from "react-router-dom";
 import { FILTER_BLOG_PAGE } from "../../constants/general";
 import useQuery from "../../hook/useQuery";
 import { blogService } from "../../services/blogService";
