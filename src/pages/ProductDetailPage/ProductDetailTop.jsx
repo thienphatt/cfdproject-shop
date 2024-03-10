@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import ProductImageZoom from "../../components/ProductImageZoom";
 import { PATHS } from "../../constants/paths";
 import { formatCurrency, transformNumberToPrecent } from "../../utils/format";
@@ -28,6 +28,14 @@ const ProductDetailTop = ({
 
     const categoryPath =
         category?.id && PATHS.PRODUCT + `?category=${category?.id}`;
+
+    // change title page
+    useEffect(() => {
+        document.title = name || "CFD Shop";
+        return () => {
+            document.title = "CFD Shop";
+        };
+    }, [name]);
 
     // click Add to cart
     const _onAddToCart = (e) => {
