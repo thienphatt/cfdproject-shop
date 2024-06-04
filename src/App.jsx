@@ -29,134 +29,107 @@ const ShippingPage = React.lazy(() => import("./pages/ShippingPage"));
 const TestPage = React.lazy(() => import("./pages/testPage"));
 const HomePgae = React.lazy(() => import("./pages/HomePage"));
 const CheckoutSuccessPage = React.lazy(() =>
-    import("./pages/CheckoutSuccessPage")
+  import("./pages/CheckoutSuccessPage")
 );
 const DashboardPage = React.lazy(() => import("./pages/DashboardPage"));
 const AccountDetail = React.lazy(() =>
-    import("./pages/DashboardPage/AccountDetail")
+  import("./pages/DashboardPage/AccountDetail")
 );
 
 function App() {
-    const dispatch = useDispatch();
-    useEffect(() => {
-        // antd message config to below the background
-        message.config({
-            top: 80,
-            duration: 3,
-            maxCount: 3,
-        });
+  const dispatch = useDispatch();
+  // test git
 
-        if (tokenMethod.get()) {
-            // handleGetProfile
-            dispatch(handleGetProfile());
+  useEffect(() => {
+    // antd message config to below the background
+    message.config({
+      top: 80,
+      duration: 3,
+      maxCount: 3,
+    });
 
-            //get cart
-            dispatch(handleGetCart());
-        }
-    }, []);
-    return (
-        <Suspense fallback={<Loading />}>
-            <BrowserRouter>
-                <Routes>
-                    <Route path={PATHS.HOME} element={<MainLayout />}>
-                        {/* HOMEPAGE */}
-                        <Route index element={<HomePgae />} />
+    if (tokenMethod.get()) {
+      // handleGetProfile
+      dispatch(handleGetProfile());
 
-                        {/* AboutPage */}
-                        <Route path={PATHS.ABOUT} element={<AboutPage />} />
+      //get cart
+      dispatch(handleGetCart());
+    }
+  }, []);
+  return (
+    <Suspense fallback={<Loading />}>
+      <BrowserRouter>
+        <Routes>
+          <Route path={PATHS.HOME} element={<MainLayout />}>
+            {/* HOMEPAGE */}
+            <Route index element={<HomePgae />} />
 
-                        {/* Blog Page */}
-                        <Route path={PATHS.BLOG} element={<BlogPage />} />
+            {/* AboutPage */}
+            <Route path={PATHS.ABOUT} element={<AboutPage />} />
 
-                        {/* Blog Detail Page */}
-                        <Route
-                            path={PATHS.BLOG_DETAIL}
-                            element={<BlogSinglePage />}
-                        />
+            {/* Blog Page */}
+            <Route path={PATHS.BLOG} element={<BlogPage />} />
 
-                        {/* Contact Page */}
-                        <Route path={PATHS.CONTACT} element={<ContactPage />} />
+            {/* Blog Detail Page */}
+            <Route path={PATHS.BLOG_DETAIL} element={<BlogSinglePage />} />
 
-                        {/* Cart page */}
-                        <Route path={PATHS.CARD} element={<CardPage />} />
+            {/* Contact Page */}
+            <Route path={PATHS.CONTACT} element={<ContactPage />} />
 
-                        {/* {check out} */}
-                        <Route
-                            path={PATHS.CHECKOUT}
-                            element={<CheckoutPage />}
-                        />
+            {/* Cart page */}
+            <Route path={PATHS.CARD} element={<CardPage />} />
 
-                        {/* {check out} */}
-                        <Route
-                            path={PATHS.CHECKOUT_SUCCESS}
-                            element={<CheckoutSuccessPage />}
-                        />
+            {/* {check out} */}
+            <Route path={PATHS.CHECKOUT} element={<CheckoutPage />} />
 
-                        {/* FAQ page */}
-                        <Route path={PATHS.FAQ} element={<FAQPage />} />
+            {/* {check out} */}
+            <Route
+              path={PATHS.CHECKOUT_SUCCESS}
+              element={<CheckoutSuccessPage />}
+            />
 
-                        {/* Payment Method Page */}
-                        <Route
-                            path={PATHS.PAYMEN_METHOD}
-                            element={<PaymentMethodPage />}
-                        />
+            {/* FAQ page */}
+            <Route path={PATHS.FAQ} element={<FAQPage />} />
 
-                        {/* Privacy Policy Page */}
-                        <Route path={PATHS.PRIVACY_POLICY} />
+            {/* Payment Method Page */}
+            <Route path={PATHS.PAYMEN_METHOD} element={<PaymentMethodPage />} />
 
-                        {/* Product Page */}
-                        <Route
-                            path={PATHS.PRODUCT}
-                            element={<ProductPage />}
-                        ></Route>
-                        <Route
-                            path={PATHS.PRODUCT_DETAIL}
-                            element={<ProductDetailPage />}
-                        />
+            {/* Privacy Policy Page */}
+            <Route path={PATHS.PRIVACY_POLICY} />
 
-                        {/* Return Page */}
-                        <Route path={PATHS.RETURN} element={<ReturnsPage />} />
+            {/* Product Page */}
+            <Route path={PATHS.PRODUCT} element={<ProductPage />}></Route>
+            <Route
+              path={PATHS.PRODUCT_DETAIL}
+              element={<ProductDetailPage />}
+            />
 
-                        {/* Shipping Page */}
-                        <Route
-                            path={PATHS.SHIPPING}
-                            element={<ShippingPage />}
-                        />
+            {/* Return Page */}
+            <Route path={PATHS.RETURN} element={<ReturnsPage />} />
 
-                        {/* {Dashboard} */}
-                        <Route
-                            element={<PrivateRoute redirectPath={PATHS.HOME} />}
-                        >
-                            <Route
-                                path={PATHS.DASHBOARD}
-                                element={<DashboardPage />}
-                            >
-                                <Route index end element={<AccountDetail />} />
-                                <Route
-                                    path={PATHS.PROFILE.ORDER}
-                                    element={<Order />}
-                                />
-                                <Route
-                                    path={PATHS.PROFILE.ADDRESS}
-                                    element={<Address />}
-                                />
-                                <Route
-                                    path={PATHS.PROFILE.WISHLIST}
-                                    element={<WishList />}
-                                />
-                            </Route>
-                        </Route>
+            {/* Shipping Page */}
+            <Route path={PATHS.SHIPPING} element={<ShippingPage />} />
 
-                        {/* Private Route */}
+            {/* {Dashboard} */}
+            <Route element={<PrivateRoute redirectPath={PATHS.HOME} />}>
+              <Route path={PATHS.DASHBOARD} element={<DashboardPage />}>
+                <Route index end element={<AccountDetail />} />
+                <Route path={PATHS.PROFILE.ORDER} element={<Order />} />
+                <Route path={PATHS.PROFILE.ADDRESS} element={<Address />} />
+                <Route path={PATHS.PROFILE.WISHLIST} element={<WishList />} />
+              </Route>
+            </Route>
 
-                        {/* 404 Page */}
-                        <Route path="*" element={<Page404 />} />
+            {/* Private Route */}
 
-                        <Route path="test" element={<TestPage />} />
-                    </Route>
-                </Routes>
-            </BrowserRouter>
-        </Suspense>
-    );
+            {/* 404 Page */}
+            <Route path="*" element={<Page404 />} />
+
+            <Route path="test" element={<TestPage />} />
+          </Route>
+        </Routes>
+      </BrowserRouter>
+    </Suspense>
+  );
 }
 export default App;
